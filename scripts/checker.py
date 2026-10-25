@@ -229,22 +229,22 @@ def ensure_xray():
     versions_to_try = [XRAY_VERSION] + XRAY_FALLBACK_VERSIONS
     for ver in versions_to_try:
         url = f"https://github.com/XTLS/Xray-core/releases/download/{ver}/Xray-linux-{arch}.zip"
-        print(f"[setup] trying xray {ver} from {url}")
+        print(f"setup: trying xray {ver} from {url}")
         zip_path = XRAY_BIN + ".zip"
         # -L follows redirects, -f fails on 4xx/5xx silently
         rc = subprocess.run(["wget", "-qL", "-O", zip_path, url]).returncode
         if rc != 0 or not os.path.exists(zip_path) or os.path.getsize(zip_path) < 1000:
-            print(f"[setup] failed {ver}")
+            print(f"setup: failed {ver}")
             continue
         try:
             subprocess.run(["unzip", "-o", zip_path, "-d", bin_dir], check=True,
                            capture_output=True)
             os.chmod(XRAY_BIN, 0o755)
             os.remove(zip_path)
-            print(f"[setup] xray {ver} ready")
+            print(f"setup: xray {ver} ready")
             return XRAY_BIN
         except Exception as e:
-            print(f"[setup] unzip failed for {ver}: {e}")
+            print(f"setup: unzip failed for {ver}: {e}")
             continue
     raise RuntimeError("could not download xray-core from any version")
 
@@ -358,7 +358,7 @@ def fetch_telegram(username: str, timeout: int = 30) -> list:
         with urllib.request.urlopen(req, timeout=timeout) as r:
             html = r.read().decode("utf-8", errors="ignore")
     except Exception as e:
-        print(f"[warn] telegram {username}: {e}")
+        print(f"warn: telegram {username}: {e}")
         return []
     # telegram wraps links in href="..."
     return list(set(re.findall(r'(?:vmess|vless|trojan|ss)://[^\s"\'<>]+', html)))
@@ -371,7 +371,7 @@ def gather_configs(sources: dict) -> list:
         if not sub.get("enabled", True):
             continue
         try:
-            print(f"[fetch] subscription {sub['name']}")
+            print(f"fetch: subscription {sub['name']}")
             for line in fetch_subscription(sub["url"]):
                 c = parse_config(line)
                 if c:
@@ -380,12 +380,12 @@ def gather_configs(sources: dict) -> list:
                         seen.add(sig)
                         out.append(c)
         except Exception as e:
-            print(f"[warn] sub {sub['name']}: {e}")
+            print(f"warn: sub {sub['name']}: {e}")
     for tg in sources.get("telegram_channels", []):
         if not tg.get("enabled", True):
             continue
         try:
-            print(f"[fetch] telegram {tg['username']}")
+            print(f"fetch: telegram {tg['username']}")
             for line in fetch_telegram(tg["username"]):
                 c = parse_config(line)
                 if c:
@@ -394,7 +394,7 @@ def gather_configs(sources: dict) -> list:
                         seen.add(sig)
                         out.append(c)
         except Exception as e:
-            print(f"[warn] tg {tg['username']}: {e}")
+            print(f"warn: tg {tg['username']}: {e}")
     return out
 
 
@@ -606,9 +606,9 @@ def main():
     configs = gather_configs(sources)
     max_n = int(settings.get("max_configs_per_run", 500))
     if len(configs) > max_n:
-        print(f"[main] truncating {len(configs)} -> {max_n}")
+        print(f"main: truncating {len(configs)} -> {max_n}")
         configs = configs[:max_n]
-    print(f"[main] testing {len(configs)} unique configs")
+    print(f"main: testing {len(configs)} unique configs")
 
     history = load_history()
 
@@ -644,7 +644,7 @@ def main():
                 "score": score,
             })
             if i % 25 == 0:
-                print(f"[main] tested {i}/{len(configs)}  kept={len(results)}")
+                print(f"main: tested {i}/{len(configs)}  kept={len(results)}")
 
     results.sort(key=lambda r: (-r["score"], r["latency_ms"] or 9999))
     top30 = results[:30]
@@ -660,7 +660,7 @@ def main():
         lines.append(config_to_uri(r["config"]))
     with open(TOP30_FILE, "w") as f:
         f.write("\n".join(lines) + ("\n" if lines else ""))
-    print(f"[main] wrote {len(top30)} configs to top30.txt")
+    print(f"main: wrote {len(top30)} configs to top30.txt")
 
     # Write all_ok.txt (everything that passed, up to 200)
     with open(ALL_OK_FILE, "w") as f:
@@ -676,7 +676,7 @@ def main():
     }
     save_history(history)
     write_stats_md(history, top30, configs)
-    print("[main] done")
+    print("main: done")
 
 
 def write_stats_md(history: dict, top30: list, all_configs: list):

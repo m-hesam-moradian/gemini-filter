@@ -1,8 +1,8 @@
-name: hourly-checker
+name: config-checker
 
 on:
   schedule:
-    - cron: "0 * * * *"     # every hour, on the hour
+    - cron: "0 */6 * * *"   # every 6 hours: 00:00, 06:00, 12:00, 18:00 UTC
   workflow_dispatch: {}    # manual trigger from Actions tab
   push:
     branches:
@@ -16,13 +16,13 @@ permissions:
   contents: write
 
 concurrency:
-  group: hourly-checker
+  group: config-checker
   cancel-in-progress: true   # cancel any previous run still going
 
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 25    # 1000 configs × ~1.2s each / 8 workers ≈ 2.5 min + speed test ≈ 4 min total
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -49,7 +49,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add top50.txt shadowsocks.txt all_ok.txt history.json stats.md 2>/dev/null || true
-          git commit -m "chore: hourly config update $(date -u +%Y-%m-%dT%H:%M)" || echo "nothing to commit"
+          git commit -m "chore: config update $(date -u +%Y-%m-%dT%H:%M)" || echo "nothing to commit"
           for i in 1 2 3 4 5; do
             git pull --rebase origin main && git push && exit 0
             echo "push attempt $i failed, retrying in 10s..."

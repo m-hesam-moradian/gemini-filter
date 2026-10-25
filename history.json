@@ -14,7 +14,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": true
+          "ok": false
         }
       ]
     },
@@ -554,7 +554,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": true
+          "ok": false
         }
       ]
     },
@@ -968,7 +968,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": false
+          "ok": true
         }
       ]
     },
@@ -1040,7 +1040,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": true
+          "ok": false
         }
       ]
     },
@@ -1139,7 +1139,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": true
+          "ok": false
         }
       ]
     },
@@ -1319,7 +1319,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": false
+          "ok": true
         }
       ]
     },
@@ -1589,7 +1589,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": false
+          "ok": true
         }
       ]
     },
@@ -1634,7 +1634,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": false
+          "ok": true
         }
       ]
     },
@@ -1931,7 +1931,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": false
+          "ok": true
         }
       ]
     },
@@ -2066,7 +2066,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": false
+          "ok": true
         }
       ]
     },
@@ -2606,7 +2606,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": false
+          "ok": true
         }
       ]
     },
@@ -2732,7 +2732,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": true
+          "ok": false
         }
       ]
     },
@@ -4501,12 +4501,12 @@
       ]
     }
   },
-  "last_updated": "2026-10-25T08:06:30.333974+00:00",
+  "last_updated": "2026-10-25T08:11:35.061896+00:00",
   "stats": {
-    "total_runs": 1,
-    "last_run_at": "2026-10-25T08:06:30.333955+00:00",
+    "total_runs": 2,
+    "last_run_at": "2026-10-25T08:11:35.061882+00:00",
     "last_run_configs_checked": 500,
-    "last_run_alive": 14,
-    "last_run_gemini_ok": 14
+    "last_run_alive": 42,
+    "last_run_gemini_ok": 42
   }
 }

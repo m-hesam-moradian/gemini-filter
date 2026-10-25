@@ -34,10 +34,10 @@
 
   "test_settings": {
     "test_url": "https://gemini.google.com/",
-    "test_timeout_seconds": 8,
+    "test_timeout_seconds": 5,
     "latency_test_url": "https://www.google.com/generate_204",
     "max_configs_per_run": 1000,
-    "concurrent_workers": 8,
+    "concurrent_workers": 12,
     "history_retention_days": 30
   }
 }

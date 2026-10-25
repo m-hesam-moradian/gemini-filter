@@ -456,11 +456,12 @@ def spawn_xray(xray_bin: str, c: dict) -> tuple:
         json.dump(cfg, f)
     proc = subprocess.Popen([xray_bin, "run", "-c", cfg_path],
                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    # Wait for xray to start listening — poll the port instead of fixed sleep
-    deadline = time.time() + 3.0
+    # Wait for xray to start listening — poll the port instead of fixed sleep.
+    # Cap at 1.5s; if it doesn't open by then, give up (the config is broken).
+    deadline = time.time() + 1.5
     while time.time() < deadline:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.settimeout(0.3)
+        s.settimeout(0.2)
         try:
             s.connect(("127.0.0.1", port))
             s.close()
@@ -471,8 +472,8 @@ def spawn_xray(xray_bin: str, c: dict) -> tuple:
             try: os.remove(cfg_path)
             except OSError: pass
             return None, None, None
-        time.sleep(0.2)
-    # timeout — port didn't open
+        time.sleep(0.15)
+    # timeout — port didn't open in 1.5s
     cleanup_xray(proc, cfg_path)
     return None, None, None
 
@@ -498,8 +499,8 @@ def curl_through_socks(port: int, url: str, timeout: int, extra_args: list = Non
     return r.returncode, r.stdout, r.stderr
 
 
-def test_latency_and_country(port: int, timeout: int) -> dict:
-    """Stage 3: latency + exit IP info (country, city)."""
+def test_latency(port: int, timeout: int) -> dict:
+    """Stage 3: latency only. Returns {alive, latency_ms} or {alive: False}."""
     rc, out, _ = curl_through_socks(port, LATENCY_URL, timeout,
                                     extra_args=["-o", "/dev/null", "-w", "%{http_code} %{time_total}"])
     if rc != 0 or not out.strip():
@@ -507,10 +508,12 @@ def test_latency_and_country(port: int, timeout: int) -> dict:
     parts = out.strip().split()
     if not parts or not parts[0].isdigit() or int(parts[0]) not in (200, 204):
         return {"alive": False}
-    latency_ms = int(float(parts[1]) * 1000)
+    return {"alive": True, "latency_ms": int(float(parts[1]) * 1000)}
 
-    info = {"alive": True, "latency_ms": latency_ms}
-    # ipinfo gives country + city + region in one call
+
+def test_country_info(port: int, timeout: int) -> dict:
+    """Look up exit IP country/city/region via ipinfo.io. Called only after Gemini passed."""
+    info = {}
     rc, out, _ = curl_through_socks(port, IP_LOOKUP_URL, timeout)
     if rc == 0 and out.strip().startswith("{"):
         try:
@@ -545,7 +548,7 @@ def test_gemini_real(port: int, timeout: int) -> bool:
     return True
 
 
-def test_download_speed(port: int, timeout: int = 25) -> float:
+def test_download_speed(port: int, timeout: int = 15) -> float:
     """
     Stage 6: download 5MB, return MB/s.
     Uses curl -w to get avg_speed in bytes/sec, converts to MB/s.
@@ -738,14 +741,18 @@ def main():
         if not proc:
             return None, "xray_died", None
         try:
-            lat_info = test_latency_and_country(port, test_timeout)
+            # Stage 3: latency (cheap — drops ~80% of bad configs here)
+            lat_info = test_latency(port, test_timeout)
             if not lat_info.get("alive"):
                 return None, "latency_fail", None
             if lat_info["latency_ms"] > LATENCY_CUTOFF_MS:
                 return None, "latency_high", lat_info
-            # Gemini real-content check
+            # Stage 4: real Gemini check (drops geo-blocked exit IPs)
             if not test_gemini_real(port, test_timeout):
                 return None, "gemini_fail", lat_info
+            # Country lookup is expensive — only do it after Gemini passed
+            country_info = test_country_info(port, test_timeout)
+            lat_info.update(country_info)
             return lat_info, "ok", None
         except Exception:
             return None, "exception", None

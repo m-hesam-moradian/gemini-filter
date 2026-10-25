@@ -36,8 +36,8 @@
     "test_url": "https://gemini.google.com/",
     "test_timeout_seconds": 8,
     "latency_test_url": "https://www.google.com/generate_204",
-    "max_configs_per_run": 500,
+    "max_configs_per_run": 5000,
     "concurrent_workers": 8,
-    "history_retention_days": 100
+    "history_retention_days": 30
   }
 }

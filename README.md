@@ -1,21 +1,35 @@
 # gemini-filter
 
-Hourly-checked v2ray configs filtered by **Gemini access** (hard requirement),
-scored by **USA priority + stability (days²) + latency**, top 30 saved.
+Hourly-checked v2ray configs filtered through a **waterfall pipeline** — each stage
+drops the failures — and finally re-ranked by **download speed**. Top 50 saved,
+with country flag + city name in each config name.
 
-## How it works
+## Pipeline (waterfall)
 
 ```
 every hour (GitHub Actions):
- 1. fetch configs  ←  sources.json (subscriptions + telegram channels)
- 2. test each one with xray-core:
-       ✓ alive?           ✓ opens gemini.google.com?  (HARD requirement)
-       ✓ exit IP country  ✓ latency
- 3. update history.json  (100-day memory per config)
- 4. score & rank  →  top30.txt  ←  paste this URL into Hiddify
+
+  Stage 1  gather          ←  sources.json (subscriptions + telegram)
+  Stage 2  balanced cap    ←  if > 5000, random pull with per-source equal share
+  Stage 3  latency test    ←  drop > 600 ms
+  Stage 4  real Gemini     ←  fetch gemini.google.com, drop geo-blocked pages
+  Stage 5  top 50          ←  by (country + stability + latency) score
+  Stage 6  speed test      ←  download 5MB through each, re-rank by MB/s
+  Stage 7  output          ←  top50.txt, shadowsocks.txt, stats.md
 ```
 
-## Scoring (max 155 pts)
+Stage 4 is the key fix — Gemini returns HTTP 200 even when geo-blocking you.
+The checker parses the page body and drops configs that show
+"Gemini is not supported in your country".
+
+## Final ranking — by download speed
+
+After 50 candidates pass all filters, each downloads a 5 MB file through
+Cloudflare's speed test endpoint. The final sort is by **MB/s descending** —
+fastest first. Latency still matters (it gates stage 3) but the final ordering
+is purely speed-based.
+
+## Scoring (used only to pick the 50 candidates — final ranking is by speed)
 
 | Category | Rule | Points |
 |----------|------|--------|
@@ -24,35 +38,35 @@ every hour (GitHub Actions):
 | | EU (DE, NL, FI, FR, GB, …) | 12 |
 | | Other | 5 |
 | **Stability** | `min(days², 100)` — capped at day 10 | 0 → 100 |
-| **Speed** | < 150 ms | 25 |
+| **Latency** | < 150 ms | 25 |
 | | 150–300 ms | 18 |
 | | 300–600 ms | 10 |
 | | > 600 ms | **DROPPED** |
-| **Gemini** | opens gemini.google.com | **required** (filter, no points) |
+| **Gemini** | opens gemini.google.com (page-content check) | **required** (filter, no points) |
 
-A 10-day-stable USA server at 130ms = `30 + 100 + 25 = 155` 👑
-A 30-day-stable German server at 240ms = `12 + 100 + 18 = 130`
-A 1-day USA server at 290ms = `30 + 1 + 18 = 49` (low — must prove itself)
-
-## Top 30
+## Top 50 — config name format
 
 ```
-1 | US | 10d | 130ms
-2 | US | 21d | 180ms
-3 | DE | 30d | 240ms
+1 | 🇺🇸 Ashburn VA | 7d | 23ms | 19.7 MB/s
+2 | 🇺🇸 Frankfurt HE | 21d | 180ms | 12.5 MB/s
+3 | 🇩🇪 Munich BY | 30d | 240ms | 7.2 MB/s
 ```
 
 ## Subscribe in Hiddify / v2rayNG
 
-Use this raw URL (updates automatically every hour):
+```
+https://raw.githubusercontent.com/m-hesam-moradian/gemini-filter/main/top50.txt
+```
+
+Shadowsocks-only (for clients that want SS only):
 
 ```
-https://raw.githubusercontent.com/m-hesam-moradian/gemini-filter/main/top30.txt
+https://raw.githubusercontent.com/m-hesam-moradian/gemini-filter/main/shadowsocks.txt
 ```
 
 ## Where to add your sources
 
-Edit **[`sources.json`](sources.json)** — three sections:
+Edit **[`sources.json`](sources.json)**:
 
 ```jsonc
 {
@@ -62,27 +76,46 @@ Edit **[`sources.json`](sources.json)** — three sections:
   "telegram_channels": [
     { "name": "my-channel", "username": "channel_without_at", "enabled": true }
   ],
-  "test_settings": { ... }   // optional tuning
+  "test_settings": {
+    "max_configs_per_run": 5000,
+    "history_retention_days": 30,
+    "concurrent_workers": 8
+  }
 }
 ```
 
-After editing → commit / push. Next hourly run picks it up. **No secrets, no CI config changes needed.**
+After editing → commit / push. Next hourly run picks it up.
 
 ## Files
 
 | File | Purpose |
 |------|---------|
 | `sources.json` | ← edit this: subscriptions + telegram channels |
-| `top30.txt` | the only file Hiddify needs — auto-updated hourly |
+| `top50.txt` | the only file Hiddify needs — top 50 ranked by speed, auto-updated hourly |
+| `shadowsocks.txt` | all shadowsocks configs that passed filters |
 | `all_ok.txt` | everything that passed (up to 200) — for fallback use |
-| `history.json` | 100-day memory: per-config first_seen, streak, history |
-| `stats.md` | human-readable run summary + top 30 table |
+| `history.json` | 30-day memory: per-config first_seen, streak, history |
+| `stats.md` | run summary + per-source breakdown + protocol counts + top 50 table |
 | `scripts/checker.py` | the engine |
 | `.github/workflows/checker.yml` | hourly run (public repo = unlimited minutes) |
 
+## How to verify a run worked
+
+1. Open https://github.com/m-hesam-moradian/gemini-filter/actions
+2. Click the latest "hourly-checker" run
+3. Step "run checker" shows the waterfall:
+   - `gather: ...` — fetched each source OK?
+   - `stage 3+4 — testing N configs` — pipeline running
+   - `drop reasons: {...}` — how many failed latency / Gemini
+   - `selected top 50 candidates for speed test`
+   - `done`
+4. Step "commit results" should end with `main -> main` (success)
+5. `stats.md` shows: per-source raw counts, protocol breakdown, top 50 table with speed
+
 ## Notes
 
-- **Public repo is required** for unlimited free Actions minutes (hourly runs × ~10 min each = ~240 min/day, private would burn the 2000 min/month quota in 8 days).
-- Tests run from GitHub's servers, so the checker verifies "does the proxy itself open Gemini". In practice this matches what works from Iran because TLS/CDN-based configs survive the GFW best.
+- **Public repo** = unlimited free GitHub Actions minutes (hourly × ~10 min = ~240 min/day).
+- Tests run from GitHub's servers; we verify "does the proxy itself open Gemini". TLS/CDN-based configs survive the GFW best, so this matches Iran's reality well.
 - `allowInsecure: true` is used during testing because many free configs have stale certs — without it, half would fail TLS handshake.
-
+- 30-day history (was 100) keeps `history.json` lighter.
+- If a source has 100k configs and another has 5k, the balanced random pull gives each source an equal share of the 5000-slot cap — no source can dominate.

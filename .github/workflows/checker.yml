@@ -48,10 +48,8 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add top30.txt all_ok.txt history.json stats.md 2>/dev/null || true
+          git add top50.txt shadowsocks.txt all_ok.txt history.json stats.md 2>/dev/null || true
           git commit -m "chore: hourly config update $(date -u +%Y-%m-%dT%H:%M)" || echo "nothing to commit"
-          # Retry push with rebase — handles concurrent runs racing on the branch.
-          # If two hourly runs ever overlap, the second one rebases onto the first's commit.
           for i in 1 2 3 4 5; do
             git pull --rebase origin main && git push && exit 0
             echo "push attempt $i failed, retrying in 10s..."

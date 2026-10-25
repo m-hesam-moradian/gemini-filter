@@ -1,32 +1,41 @@
 #!/usr/bin/env python3
 """
-gemini-filter — hourly v2ray config checker
-============================================
-Fetches configs from sources.json, tests each one for:
-  1. Alive (proxy connects)
-  2. Opens gemini.google.com (HARD REQUIREMENT — fails = dropped)
-  3. Exit IP country (USA = 30 pts, etc.)
-  4. Latency (<150ms = 25 pts, 150-300 = 18, 300-600 = 10, >600 = DROPPED)
-  5. Stability (min(days^2, 100) — capped at day 10)
+gemini-filter — hourly v2ray config checker (v2)
+================================================
 
-Top 30 by score saved to top30.txt with names like:
-  1 | US | 10d | 130ms
-  2 | DE | 21d | 240ms
+Pipeline (waterfall — each stage drops the failures):
+
+  Stage 1: Gather        — fetch configs from sources.json
+                            (subscriptions + telegram + raw .txt URLs)
+  Stage 2: Cap           — if total > 5000, do per-source balanced random sampling
+                            so each source contributes equally (no single source dominates)
+  Stage 3: Latency test  — keep only configs with latency < 600ms
+  Stage 4: Real Gemini   — fetch gemini.google.com, parse page HTML,
+                            drop configs where Gemini shows the geo-block page
+                            ("Gemini is not supported in your country")
+  Stage 5: Top 50        — take top 50 candidates by (country + stability + latency) score
+  Stage 6: Speed test    — download 5MB through each of the top 50, re-rank by download speed
+  Stage 7: Output        — write top50.txt, shadowsocks.txt, all_ok.txt, stats.md
+                            commit back to repo
+
+Final ranking is by download speed (MB/s) — fastest config first.
+
+Config names look like:
+  1 | 🇺🇸 Ashburn VA | 7d | 23ms | 19.7 MB/s
 """
 
 import base64
 import concurrent.futures
 import json
 import os
+import random
 import re
 import socket
-import ssl
 import subprocess
-import sys
 import time
 import urllib.parse
 import urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 # ---------------------------------------------------------------------------
 # Paths and constants
@@ -34,17 +43,32 @@ from datetime import datetime, timezone
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SOURCES_FILE = os.path.join(ROOT, "sources.json")
 HISTORY_FILE = os.path.join(ROOT, "history.json")
-TOP30_FILE = os.path.join(ROOT, "top30.txt")
+TOP_FILE = os.path.join(ROOT, "top50.txt")
+SS_FILE = os.path.join(ROOT, "shadowsocks.txt")
 ALL_OK_FILE = os.path.join(ROOT, "all_ok.txt")
 STATS_FILE = os.path.join(ROOT, "stats.md")
 XRAY_BIN = os.path.join(ROOT, "bin", "xray")
 XRAY_VERSION = "v26.10.21"
-# Fallback versions if the primary fails (older releases that definitely exist)
 XRAY_FALLBACK_VERSIONS = ["v25.10.7", "v25.1.30", "v24.12.18"]
 
 GEMINI_URL = "https://gemini.google.com/"
 LATENCY_URL = "https://www.google.com/generate_204"
 IP_LOOKUP_URL = "https://ipinfo.io/json"
+SPEED_TEST_URL = "https://speed.cloudflare.com/__down?bytes=5000000"  # 5 MB
+
+MAX_CONFIGS = 5000           # hard cap; if exceeded, do balanced random sampling
+TOP_N = 50                   # final size of top50.txt
+LATENCY_CUTOFF_MS = 600      # drop configs slower than this
+
+# Phrases Gemini shows when geo-blocked (case-insensitive substring match)
+GEMINI_BLOCK_PHRASES = [
+    "is not supported in your country",
+    "not available in your country",
+    "isn't available in your country",
+    "is not available in your region",
+    "isn't supported in your country",
+    "not supported in your region",
+]
 
 COUNTRY_SCORES = {
     "US": 30, "CA": 18, "MX": 18,
@@ -54,13 +78,20 @@ COUNTRY_SCORES = {
 }
 DEFAULT_COUNTRY_SCORE = 5
 
-FLAG_BASE = {
-    "US": "US", "CA": "CA", "MX": "MX",
-    "DE": "DE", "NL": "NL", "FI": "FI", "FR": "FR", "GB": "UK",
-    "SE": "SE", "CH": "CH", "AT": "AT", "IE": "IE", "BE": "BE",
-    "DK": "DK", "NO": "NO", "TR": "TR", "AE": "AE",
-    "JP": "JP", "KR": "KR", "SG": "SG", "HK": "HK",
-}
+
+# ---------------------------------------------------------------------------
+# Country code -> flag emoji (regional indicator pairs)
+# ---------------------------------------------------------------------------
+
+def country_flag(cc: str) -> str:
+    """Convert ISO-2 country code to flag emoji."""
+    if not cc or len(cc) != 2 or not cc.isalpha():
+        return "🏳️"
+    cc = cc.upper()
+    try:
+        return chr(0x1F1E6 + ord(cc[0]) - ord("A")) + chr(0x1F1E6 + ord(cc[1]) - ord("A"))
+    except Exception:
+        return "🏳️"
 
 
 # ---------------------------------------------------------------------------
@@ -68,7 +99,6 @@ FLAG_BASE = {
 # ---------------------------------------------------------------------------
 
 def parse_vmess(uri: str) -> dict:
-    """vmess://base64json"""
     try:
         b64 = uri[len("vmess://"):]
         b64 += "=" * (-len(b64) % 4)
@@ -91,23 +121,19 @@ def parse_vmess(uri: str) -> dict:
 
 
 def parse_url_scheme(uri: str, scheme: str) -> dict:
-    """vless://, trojan://, ss://"""
     try:
         if not uri.startswith(scheme + "://"):
             return None
         body = uri[len(scheme) + 3:]
-        # split off fragment (remark)
         if "#" in body:
             body, frag = body.split("#", 1)
             remark = urllib.parse.unquote(frag)
         else:
             remark = ""
-        # split off query
         if "?" in body:
             main, query = body.split("?", 1)
         else:
             main, query = body, ""
-        # userinfo@host:port
         if "@" not in main:
             return None
         userinfo, hostport = main.rsplit("@", 1)
@@ -118,16 +144,15 @@ def parse_url_scheme(uri: str, scheme: str) -> dict:
         params = dict(urllib.parse.parse_qsl(query))
 
         if scheme == "ss":
-            # userinfo may be base64(method:password)
             try:
                 dec = base64.urlsafe_b64decode(userinfo + "=" * (-len(userinfo) % 4)).decode("utf-8")
                 method, password = dec.split(":", 1)
             except Exception:
-                method, password = userinfo.split(":", 1) if ":" in userinfo else ("none", userinfo)
+                method, password = (userinfo.split(":", 1) + [None])[:2] if ":" in userinfo else ("none", userinfo)
             return {
                 "protocol": "shadowsocks",
                 "address": host, "port": port,
-                "method": method, "password": password,
+                "method": method, "password": password or "",
                 "network": "tcp", "tls": "", "sni": "", "path": "/", "host": "",
                 "remark": remark,
             }
@@ -177,12 +202,10 @@ def parse_config(uri: str) -> dict:
 
 
 def config_signature(c: dict) -> str:
-    """Stable identity of a config (ignoring remark)."""
     return f"{c['protocol']}|{c['address']}|{c['port']}|{c.get('id', c.get('password', ''))}"
 
 
 def config_to_uri(c: dict) -> str:
-    """Re-serialize so Hiddify/v2rayNG can import."""
     if c["protocol"] == "vmess":
         payload = {
             "v": "2", "ps": c.get("remark", ""),
@@ -226,19 +249,15 @@ def ensure_xray():
     bin_dir = os.path.dirname(XRAY_BIN)
     os.makedirs(bin_dir, exist_ok=True)
     arch = "64" if os.uname().machine in ("x86_64", "amd64") else "arm64-v8a"
-    versions_to_try = [XRAY_VERSION] + XRAY_FALLBACK_VERSIONS
-    for ver in versions_to_try:
+    for ver in [XRAY_VERSION] + XRAY_FALLBACK_VERSIONS:
         url = f"https://github.com/XTLS/Xray-core/releases/download/{ver}/Xray-linux-{arch}.zip"
-        print(f"setup: trying xray {ver} from {url}")
+        print(f"setup: trying xray {ver}")
         zip_path = XRAY_BIN + ".zip"
-        # -L follows redirects, -f fails on 4xx/5xx silently
         rc = subprocess.run(["wget", "-qL", "-O", zip_path, url]).returncode
         if rc != 0 or not os.path.exists(zip_path) or os.path.getsize(zip_path) < 1000:
-            print(f"setup: failed {ver}")
             continue
         try:
-            subprocess.run(["unzip", "-o", zip_path, "-d", bin_dir], check=True,
-                           capture_output=True)
+            subprocess.run(["unzip", "-o", zip_path, "-d", bin_dir], check=True, capture_output=True)
             os.chmod(XRAY_BIN, 0o755)
             os.remove(zip_path)
             print(f"setup: xray {ver} ready")
@@ -246,112 +265,80 @@ def ensure_xray():
         except Exception as e:
             print(f"setup: unzip failed for {ver}: {e}")
             continue
-    raise RuntimeError("could not download xray-core from any version")
+    raise RuntimeError("could not download xray-core")
 
 
 def build_xray_config(c: dict, socks_port: int) -> dict:
-    """Translate parsed config into xray-core JSON."""
     inbound = {
-        "port": socks_port,
-        "listen": "127.0.0.1",
-        "protocol": "socks",
-        "settings": {"auth": "noauth", "udp": False},
+        "port": socks_port, "listen": "127.0.0.1",
+        "protocol": "socks", "settings": {"auth": "noauth", "udp": False},
     }
-
     stream = {"network": c.get("network", "tcp")}
     net = stream["network"]
     if net == "ws":
-        stream["wsSettings"] = {"path": c.get("path", "/"), "headers": {"Host": c.get("host", "") or c.get("sni", "")}}
+        stream["wsSettings"] = {"path": c.get("path", "/"),
+                                "headers": {"Host": c.get("host", "") or c.get("sni", "")}}
     elif net == "grpc":
         stream["grpcSettings"] = {"serviceName": c.get("path", "") or c.get("host", "")}
     elif net == "h2":
-        stream["httpSettings"] = {"path": c.get("path", "/"), "host": [c.get("host", "")] if c.get("host") else []}
+        stream["httpSettings"] = {"path": c.get("path", "/"),
+                                  "host": [c.get("host", "")] if c.get("host") else []}
 
     sec = c.get("tls", "")
     if sec in ("tls", "reality") or (c["protocol"] in ("trojan", "vless") and sec != "none"):
         stream["security"] = "tls"
-        stream["tlsSettings"] = {
-            "serverName": c.get("sni", "") or c["address"],
-            "allowInsecure": True,
-        }
+        stream["tlsSettings"] = {"serverName": c.get("sni", "") or c["address"], "allowInsecure": True}
     else:
         stream["security"] = "none"
 
     if c["protocol"] == "vmess":
-        outbound = {
-            "protocol": "vmess",
-            "settings": {"vnext": [{
-                "address": c["address"], "port": c["port"],
-                "users": [{"id": c["id"], "alterId": c.get("alterId", 0), "security": "auto"}],
-            }]},
-            "streamSettings": stream,
-        }
+        outbound = {"protocol": "vmess",
+                    "settings": {"vnext": [{"address": c["address"], "port": c["port"],
+                                            "users": [{"id": c["id"], "alterId": c.get("alterId", 0),
+                                                       "security": "auto"}]}]},
+                    "streamSettings": stream}
     elif c["protocol"] == "vless":
         users = {"id": c["id"], "encryption": "none"}
         if c.get("flow"):
             users["flow"] = c["flow"]
-        outbound = {
-            "protocol": "vless",
-            "settings": {"vnext": [{
-                "address": c["address"], "port": c["port"],
-                "users": [users],
-            }]},
-            "streamSettings": stream,
-        }
+        outbound = {"protocol": "vless",
+                    "settings": {"vnext": [{"address": c["address"], "port": c["port"],
+                                            "users": [users]}]},
+                    "streamSettings": stream}
     elif c["protocol"] == "trojan":
-        outbound = {
-            "protocol": "trojan",
-            "settings": {"servers": [{
-                "address": c["address"], "port": c["port"],
-                "password": c["password"],
-            }]},
-            "streamSettings": stream,
-        }
+        outbound = {"protocol": "trojan",
+                    "settings": {"servers": [{"address": c["address"], "port": c["port"],
+                                              "password": c["password"]}]},
+                    "streamSettings": stream}
     elif c["protocol"] == "shadowsocks":
-        outbound = {
-            "protocol": "shadowsocks",
-            "settings": {"servers": [{
-                "address": c["address"], "port": c["port"],
-                "method": c["method"], "password": c["password"],
-            }]},
-            "streamSettings": stream,
-        }
+        outbound = {"protocol": "shadowsocks",
+                    "settings": {"servers": [{"address": c["address"], "port": c["port"],
+                                              "method": c["method"], "password": c["password"]}]},
+                    "streamSettings": stream}
     else:
         return None
-
-    return {
-        "log": {"loglevel": "warning"},
-        "inbounds": [inbound],
-        "outbounds": [outbound],
-    }
+    return {"log": {"loglevel": "warning"}, "inbounds": [inbound], "outbounds": [outbound]}
 
 
 # ---------------------------------------------------------------------------
-# Source fetching
+# Source fetching (with per-source tracking for stats)
 # ---------------------------------------------------------------------------
 
 def fetch_subscription(url: str, timeout: int = 30) -> list:
-    """A subscription URL returns either a raw list of v2ray links or base64 of them."""
     req = urllib.request.Request(url, headers={"User-Agent": "v2rayNG/1.8.5"})
     with urllib.request.urlopen(req, timeout=timeout) as r:
         body = r.read().decode("utf-8", errors="ignore").strip()
-    lines = []
-    # try base64 decode
     try:
         dec = base64.b64decode(body + "=" * (-len(body) % 4)).decode("utf-8", errors="ignore")
         if any(s + "://" in dec for s in ("vmess", "vless", "trojan", "ss")):
             body = dec
     except Exception:
         pass
-    for line in body.splitlines():
-        line = line.strip()
-        if line and any(line.startswith(s + "://") for s in ("vmess", "vless", "trojan", "ss")):
-            lines.append(line)
-    return lines
+    return [l.strip() for l in body.splitlines()
+            if l.strip() and any(l.strip().startswith(s + "://") for s in ("vmess", "vless", "trojan", "ss"))]
 
 
 def fetch_telegram(username: str, timeout: int = 30) -> list:
-    """Pull recent messages from a public Telegram channel via t.me/s/CHANNEL."""
     url = f"https://t.me/s/{username.lstrip('@')}"
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
     try:
@@ -360,13 +347,26 @@ def fetch_telegram(username: str, timeout: int = 30) -> list:
     except Exception as e:
         print(f"warn: telegram {username}: {e}")
         return []
-    # telegram wraps links in href="..."
     return list(set(re.findall(r'(?:vmess|vless|trojan|ss)://[^\s"\'<>]+', html)))
 
 
 def gather_configs(sources: dict) -> list:
+    """
+    Returns list of dicts: {config, source_name, source_type}
+    Dedup happens GLOBALLY but the first source to provide a config wins attribution.
+    """
     seen = set()
     out = []
+    per_source_raw = {}
+
+    def add(c, source_name, source_type):
+        sig = config_signature(c)
+        per_source_raw[source_name] = per_source_raw.get(source_name, 0) + 1
+        if sig in seen:
+            return
+        seen.add(sig)
+        out.append({"config": c, "source_name": source_name, "source_type": source_type})
+
     for sub in sources.get("subscriptions", []):
         if not sub.get("enabled", True):
             continue
@@ -375,12 +375,10 @@ def gather_configs(sources: dict) -> list:
             for line in fetch_subscription(sub["url"]):
                 c = parse_config(line)
                 if c:
-                    sig = config_signature(c)
-                    if sig not in seen:
-                        seen.add(sig)
-                        out.append(c)
+                    add(c, sub["name"], "subscription")
         except Exception as e:
             print(f"warn: sub {sub['name']}: {e}")
+
     for tg in sources.get("telegram_channels", []):
         if not tg.get("enabled", True):
             continue
@@ -389,17 +387,54 @@ def gather_configs(sources: dict) -> list:
             for line in fetch_telegram(tg["username"]):
                 c = parse_config(line)
                 if c:
-                    sig = config_signature(c)
-                    if sig not in seen:
-                        seen.add(sig)
-                        out.append(c)
+                    add(c, tg["username"], "telegram")
         except Exception as e:
             print(f"warn: tg {tg['username']}: {e}")
-    return out
+
+    return out, per_source_raw
+
+
+def balanced_random_pull(items: list, max_n: int) -> list:
+    """
+    Each source contributes an EQUAL share of the cap.
+    If source A has 100k configs and source B has 5k, both get max_n/n_sources slots.
+    Sources smaller than their slot get fully included; the leftover is split among the bigger ones.
+    """
+    if len(items) <= max_n:
+        return items
+    by_source = {}
+    for item in items:
+        by_source.setdefault(item["source_name"], []).append(item)
+    n_sources = len(by_source)
+    base_quota = max_n // n_sources
+    leftovers = max_n - base_quota * n_sources
+
+    result = []
+    leftover_pool = []
+    for src, lst in by_source.items():
+        random.shuffle(lst)
+        if len(lst) <= base_quota:
+            result.extend(lst)
+            leftover_pool.extend(lst)  # this source's full set is in; nothing to spare
+            # leftover slot is redistributed to others; skip
+        else:
+            take = lst[:base_quota]
+            result.extend(take)
+            leftover_pool.extend(lst[base_quota:])  # extras go to the leftover redistribution pool
+
+    # fill remaining slots from leftover_pool
+    needed = max_n - len(result)
+    if needed > 0 and leftover_pool:
+        random.shuffle(leftover_pool)
+        result.extend(leftover_pool[:needed])
+
+    # final trim (in case rounding went over)
+    random.shuffle(result)
+    return result[:max_n]
 
 
 # ---------------------------------------------------------------------------
-# Testing one config
+# Test one config — multi-stage
 # ---------------------------------------------------------------------------
 
 def free_port() -> int:
@@ -410,118 +445,129 @@ def free_port() -> int:
     return p
 
 
-def test_one_config(xray_bin: str, c: dict, settings: dict) -> dict:
-    """
-    Returns dict with keys: alive(bool), gemini_ok(bool), latency_ms(int|None),
-    country(str|None), country_code(str|None), error(str|None)
-    """
+def spawn_xray(xray_bin: str, c: dict) -> tuple:
+    """Returns (proc, port, cfg_path) or (None, None, None) on failure."""
     port = free_port()
-    xray_cfg = build_xray_config(c, port)
-    if not xray_cfg:
-        return {"alive": False, "gemini_ok": False, "latency_ms": None,
-                "country": None, "country_code": None, "error": "bad_config"}
-
+    cfg = build_xray_config(c, port)
+    if not cfg:
+        return None, None, None
     cfg_path = f"/tmp/xray_{port}.json"
     with open(cfg_path, "w") as f:
-        json.dump(xray_cfg, f)
-
-    proc = None
-    try:
-        proc = subprocess.Popen([xray_bin, "run", "-c", cfg_path],
-                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        time.sleep(1.5)
+        json.dump(cfg, f)
+    proc = subprocess.Popen([xray_bin, "run", "-c", cfg_path],
+                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    # Wait for xray to start listening — poll the port instead of fixed sleep
+    deadline = time.time() + 3.0
+    while time.time() < deadline:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(0.3)
+        try:
+            s.connect(("127.0.0.1", port))
+            s.close()
+            return proc, port, cfg_path
+        except Exception:
+            pass
         if proc.poll() is not None:
-            return {"alive": False, "gemini_ok": False, "latency_ms": None,
-                    "country": None, "country_code": None, "error": "xray_died"}
+            try: os.remove(cfg_path)
+            except OSError: pass
+            return None, None, None
+        time.sleep(0.2)
+    # timeout — port didn't open
+    cleanup_xray(proc, cfg_path)
+    return None, None, None
 
-        proxies = {"http": f"socks5h://127.0.0.1:{port}",
-                   "https": f"socks5h://127.0.0.1:{port}"}
-        timeout = settings.get("test_timeout_seconds", 8)
 
-        # 1) latency test
-        t0 = time.time()
-        req = urllib.request.Request(LATENCY_URL, headers={"User-Agent": "curl/8"})
+def cleanup_xray(proc, cfg_path):
+    if proc and proc.poll() is None:
+        proc.terminate()
+        try: proc.wait(timeout=2)
+        except Exception: proc.kill()
+    if cfg_path and os.path.exists(cfg_path):
+        try: os.remove(cfg_path)
+        except OSError: pass
+
+
+def curl_through_socks(port: int, url: str, timeout: int, extra_args: list = None) -> tuple:
+    """Run curl through the SOCKS proxy, return (returncode, stdout, stderr)."""
+    cmd = ["curl", "-sS", "-x", f"socks5h://127.0.0.1:{port}",
+           "--max-time", str(timeout), "-L"]
+    if extra_args:
+        cmd.extend(extra_args)
+    cmd.append(url)
+    r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout + 5)
+    return r.returncode, r.stdout, r.stderr
+
+
+def test_latency_and_country(port: int, timeout: int) -> dict:
+    """Stage 3: latency + exit IP info (country, city)."""
+    rc, out, _ = curl_through_socks(port, LATENCY_URL, timeout,
+                                    extra_args=["-o", "/dev/null", "-w", "%{http_code} %{time_total}"])
+    if rc != 0 or not out.strip():
+        return {"alive": False}
+    parts = out.strip().split()
+    if not parts or not parts[0].isdigit() or int(parts[0]) not in (200, 204):
+        return {"alive": False}
+    latency_ms = int(float(parts[1]) * 1000)
+
+    info = {"alive": True, "latency_ms": latency_ms}
+    # ipinfo gives country + city + region in one call
+    rc, out, _ = curl_through_socks(port, IP_LOOKUP_URL, timeout)
+    if rc == 0 and out.strip().startswith("{"):
         try:
-            # use curl through SOCKS for speed
-            r = subprocess.run(
-                ["curl", "-sS", "-x", f"socks5h://127.0.0.1:{port}", "-o", "/dev/null",
-                 "-w", "%{http_code} %{time_total}", "--max-time", str(timeout),
-                 LATENCY_URL],
-                capture_output=True, text=True, timeout=timeout + 2)
-            if r.returncode != 0 or not r.stdout.strip():
-                return {"alive": False, "gemini_ok": False, "latency_ms": None,
-                        "country": None, "country_code": None, "error": "latency_fail"}
-            parts = r.stdout.strip().split()
-            http_code = int(parts[0]) if parts and parts[0].isdigit() else 0
-            if http_code not in (200, 204):
-                return {"alive": False, "gemini_ok": False, "latency_ms": None,
-                        "country": None, "country_code": None, "error": f"http_{http_code}"}
-            latency_ms = int(float(parts[1]) * 1000)
-        except Exception:
-            return {"alive": False, "gemini_ok": False, "latency_ms": None,
-                    "country": None, "country_code": None, "error": "latency_exception"}
-
-        # 2) Gemini test (HARD requirement)
-        r = subprocess.run(
-            ["curl", "-sS", "-x", f"socks5h://127.0.0.1:{port}", "-o", "/dev/null",
-             "-w", "%{http_code}", "--max-time", str(timeout), "-L", GEMINI_URL],
-            capture_output=True, text=True, timeout=timeout + 2)
-        gemini_ok = r.returncode == 0 and r.stdout.strip() in ("200", "302", "301", "303")
-
-        # 3) Exit IP location
-        country_code = None
-        country_name = None
-        try:
-            r = subprocess.run(
-                ["curl", "-sS", "-x", f"socks5h://127.0.0.1:{port}", "--max-time", str(timeout),
-                 IP_LOOKUP_URL],
-                capture_output=True, text=True, timeout=timeout + 2)
-            if r.returncode == 0 and r.stdout.strip().startswith("{"):
-                info = json.loads(r.stdout)
-                country_code = (info.get("country") or "").upper() or None
-                country_name = info.get("country") or country_code
+            d = json.loads(out)
+            info["country_code"] = (d.get("country") or "").upper() or None
+            info["city"] = d.get("city") or ""
+            info["region"] = d.get("region") or ""
         except Exception:
             pass
+    return info
 
-        return {
-            "alive": True,
-            "gemini_ok": gemini_ok,
-            "latency_ms": latency_ms,
-            "country_code": country_code,
-            "country": country_name,
-            "error": None,
-        }
-    finally:
-        if proc and proc.poll() is None:
-            proc.terminate()
-            try:
-                proc.wait(timeout=2)
-            except Exception:
-                proc.kill()
-        try:
-            os.remove(cfg_path)
-        except OSError:
-            pass
+
+def test_gemini_real(port: int, timeout: int) -> bool:
+    """
+    Stage 4: fetch gemini.google.com and check the page content.
+    Returns True only if the page actually loads (not the geo-block page).
+    """
+    # -s silent, -L follow redirects, get the HTML body
+    rc, out, _ = curl_through_socks(port, GEMINI_URL, timeout)
+    if rc != 0 or not out:
+        return False
+    body_lower = out.lower()
+    # If Gemini shows the geo-block page, drop the config
+    for phrase in GEMINI_BLOCK_PHRASES:
+        if phrase in body_lower:
+            return False
+    # Heuristic: real Gemini page contains some of these markers
+    # (the marketing page OR the chat app)
+    positive_markers = ["gemini", "google", "<html", "<head"]
+    if not any(m in body_lower for m in positive_markers):
+        return False
+    return True
+
+
+def test_download_speed(port: int, timeout: int = 25) -> float:
+    """
+    Stage 6: download 5MB, return MB/s.
+    Uses curl -w to get avg_speed in bytes/sec, converts to MB/s.
+    """
+    rc, out, _ = curl_through_socks(
+        port, SPEED_TEST_URL, timeout,
+        extra_args=["-o", "/dev/null", "-w", "%{speed_download}"])
+    if rc != 0 or not out.strip():
+        return 0.0
+    try:
+        bps = float(out.strip())
+        return round(bps / 1_000_000, 2)  # bytes/sec -> MB/s
+    except Exception:
+        return 0.0
 
 
 # ---------------------------------------------------------------------------
-# Scoring
+# Scoring (used to pick top 50 candidates BEFORE the speed test)
 # ---------------------------------------------------------------------------
 
 def score_country(cc: str) -> int:
     return COUNTRY_SCORES.get(cc, DEFAULT_COUNTRY_SCORE) if cc else 0
-
-
-def score_latency(ms: int) -> int:
-    if ms is None:
-        return 0
-    if ms < 150:
-        return 25
-    if ms < 300:
-        return 18
-    if ms < 600:
-        return 10
-    return -1  # dropped
 
 
 def score_stability(days: int) -> int:
@@ -530,14 +576,17 @@ def score_stability(days: int) -> int:
     return min(days * days, 100)
 
 
-def country_flag(cc: str) -> str:
-    if not cc:
-        return "??"
-    return FLAG_BASE.get(cc.upper(), cc.upper())
+def score_latency(ms: int) -> int:
+    if ms is None:
+        return 0
+    if ms < 150: return 25
+    if ms < 300: return 18
+    if ms < 600: return 10
+    return -1  # dropped
 
 
 # ---------------------------------------------------------------------------
-# History
+# History (30-day retention)
 # ---------------------------------------------------------------------------
 
 def today_utc() -> str:
@@ -549,7 +598,7 @@ def load_history() -> dict:
         with open(HISTORY_FILE) as f:
             return json.load(f)
     except Exception:
-        return {"configs": {}, "last_updated": None, "stats": {}}
+        return {"configs": {}, "last_updated": None, "stats": {}, "sources_30d": {}}
 
 
 def save_history(h: dict):
@@ -559,142 +608,267 @@ def save_history(h: dict):
 
 
 def update_history(h: dict, sig: str, today_ok: bool, retention_days: int) -> dict:
-    """Returns the entry with computed streak_days and first_seen."""
     cfgs = h.setdefault("configs", {})
     e = cfgs.get(sig, {"first_seen": today_utc(), "history": []})
-
     today = today_utc()
-    # dedupe today's entry — keep last
     if e["history"] and e["history"][-1].get("date") == today:
         e["history"][-1] = {"date": today, "ok": today_ok}
     else:
         e["history"].append({"date": today, "ok": today_ok})
-
-    # trim
-    cutoff = (datetime.now(timezone.utc).timestamp()) - retention_days * 86400
+    cutoff = datetime.now(timezone.utc).timestamp() - retention_days * 86400
     e["history"] = [x for x in e["history"]
                     if datetime.fromisoformat(x["date"]).timestamp() >= cutoff][-retention_days:]
-
-    # streak = consecutive ok days ending today (or last seen)
     streak = 0
     for entry in reversed(e["history"]):
         if entry["ok"]:
             streak += 1
         else:
             break
-
     cfgs[sig] = e
-    return {"first_seen": e["first_seen"], "streak_days": streak,
-            "history_len": len(e["history"])}
+    return {"first_seen": e["first_seen"], "streak_days": streak}
 
 
 # ---------------------------------------------------------------------------
-# Main
+# Main pipeline
 # ---------------------------------------------------------------------------
 
 def main():
-    print("=" * 60)
-    print(f"gemini-filter run — {datetime.now(timezone.utc).isoformat()}")
-    print("=" * 60)
+    print("=" * 70)
+    print(f"gemini-filter v2 — {datetime.now(timezone.utc).isoformat()}")
+    print("=" * 70)
 
     with open(SOURCES_FILE) as f:
         sources = json.load(f)
     settings = sources.get("test_settings", {})
-    retention_days = int(settings.get("history_retention_days", 100))
+    retention_days = int(settings.get("history_retention_days", 30))  # was 100, now 30
+    workers = int(settings.get("concurrent_workers", 8))
+    test_timeout = int(settings.get("test_timeout_seconds", 8))
+
+    # ---- Stage 1: gather ----
+    all_items, per_source_raw = gather_configs(sources)
+    total_gathered = len(all_items)
+    print(f"main: stage 1 — gathered {total_gathered} unique configs from {len(per_source_raw)} sources")
+
+    # ---- Stage 2: balanced random pull if > MAX_CONFIGS ----
+    if total_gathered > MAX_CONFIGS:
+        print(f"main: stage 2 — capping to {MAX_CONFIGS} via balanced random pull")
+        items = balanced_random_pull(all_items, MAX_CONFIGS)
+        # Log per-source allocation after pull
+        per_source_kept = {}
+        for it in items:
+            per_source_kept[it["source_name"]] = per_source_kept.get(it["source_name"], 0) + 1
+        for src, n in sorted(per_source_kept.items(), key=lambda x: -x[1]):
+            raw = per_source_raw.get(src, 0)
+            print(f"         {src:30} raw={raw:6}  kept={n}")
+    else:
+        items = all_items
+        print(f"main: stage 2 — no cap needed ({total_gathered} <= {MAX_CONFIGS})")
 
     xray_bin = ensure_xray()
-    configs = gather_configs(sources)
-    max_n = int(settings.get("max_configs_per_run", 500))
-    if len(configs) > max_n:
-        print(f"main: truncating {len(configs)} -> {max_n}")
-        configs = configs[:max_n]
-    print(f"main: testing {len(configs)} unique configs")
-
     history = load_history()
 
-    results = []
-    workers = int(settings.get("concurrent_workers", 8))
+    # ---- Stage 3+4: latency test → drop >600ms → real Gemini test ----
+    passed_stage34 = []
+    stats_stage = {"latency_fail": 0, "gemini_fail": 0, "xray_fail": 0}
 
+    def worker_stage34(item):
+        c = item["config"]
+        proc, port, cfg_path = spawn_xray(xray_bin, c)
+        if not proc:
+            return None, "xray_died", None
+        try:
+            lat_info = test_latency_and_country(port, test_timeout)
+            if not lat_info.get("alive"):
+                return None, "latency_fail", None
+            if lat_info["latency_ms"] > LATENCY_CUTOFF_MS:
+                return None, "latency_high", lat_info
+            # Gemini real-content check
+            if not test_gemini_real(port, test_timeout):
+                return None, "gemini_fail", lat_info
+            return lat_info, "ok", None
+        except Exception:
+            return None, "exception", None
+        finally:
+            cleanup_xray(proc, cfg_path)
+
+    print(f"main: stage 3+4 — testing {len(items)} configs (latency < {LATENCY_CUTOFF_MS}ms + Gemini real)")
     with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as ex:
-        futs = {ex.submit(test_one_config, xray_bin, c, settings): c for c in configs}
+        futs = {ex.submit(worker_stage34, it): it for it in items}
         for i, fut in enumerate(concurrent.futures.as_completed(futs), 1):
-            c = futs[fut]
+            it = futs[fut]
             try:
-                t = fut.result()
-            except Exception as e:
-                t = {"alive": False, "gemini_ok": False, "latency_ms": None,
-                     "country_code": None, "country": None, "error": str(e)}
+                lat_info, status, _ = fut.result()
+            except Exception:
+                status, lat_info = "exception", None
+            sig = config_signature(it["config"])
+            ok_today = status == "ok"
+            hinfo = update_history(history, sig, ok_today, retention_days)
+            if ok_today and lat_info:
+                lat_score = score_latency(lat_info["latency_ms"])
+                candidate_score = (score_country(lat_info.get("country_code"))
+                                   + score_stability(hinfo["streak_days"])
+                                   + max(lat_score, 0))
+                passed_stage34.append({
+                    "config": it["config"],
+                    "source_name": it["source_name"],
+                    "source_type": it["source_type"],
+                    "country_code": lat_info.get("country_code"),
+                    "city": lat_info.get("city", ""),
+                    "region": lat_info.get("region", ""),
+                    "latency_ms": lat_info["latency_ms"],
+                    "streak_days": hinfo["streak_days"],
+                    "first_seen": hinfo["first_seen"],
+                    "candidate_score": candidate_score,
+                })
+            else:
+                stats_stage[status] = stats_stage.get(status, 0) + 1
+            if i % 50 == 0:
+                print(f"         tested {i}/{len(items)}  passed={len(passed_stage34)}")
 
-            sig = config_signature(c)
-            hinfo = update_history(history, sig, t["alive"] and t["gemini_ok"], retention_days)
-            if not t["alive"] or not t["gemini_ok"]:
-                continue
-            lat_score = score_latency(t["latency_ms"])
-            if lat_score < 0:
-                continue  # >600ms dropped
-            score = (score_country(t["country_code"])
-                     + score_stability(hinfo["streak_days"])
-                     + lat_score)
-            results.append({
-                "config": c,
-                "country_code": t["country_code"],
-                "latency_ms": t["latency_ms"],
-                "streak_days": hinfo["streak_days"],
-                "first_seen": hinfo["first_seen"],
-                "score": score,
-            })
-            if i % 25 == 0:
-                print(f"main: tested {i}/{len(configs)}  kept={len(results)}")
+    print(f"main: stage 3+4 — {len(passed_stage34)} configs passed latency + real-Gemini check")
+    print(f"         drop reasons: {stats_stage}")
 
-    results.sort(key=lambda r: (-r["score"], r["latency_ms"] or 9999))
-    top30 = results[:30]
+    # ---- Stage 5: pick top 50 candidates by composite score ----
+    passed_stage34.sort(key=lambda r: (-r["candidate_score"], r["latency_ms"]))
+    top_candidates = passed_stage34[:TOP_N]
+    print(f"main: stage 5 — selected top {len(top_candidates)} candidates for speed test")
 
-    # Write top30.txt
-    lines = []
-    for i, r in enumerate(top30, 1):
-        cc = r["country_code"] or "??"
-        flag = country_flag(cc)
-        name = f"{i} | {flag} | {r['streak_days']}d | {r['latency_ms']}ms"
-        # update remark so Hiddify shows the same name
-        r["config"]["remark"] = name
-        lines.append(config_to_uri(r["config"]))
-    with open(TOP30_FILE, "w") as f:
-        f.write("\n".join(lines) + ("\n" if lines else ""))
-    print(f"main: wrote {len(top30)} configs to top30.txt")
+    # ---- Stage 6: download speed test, re-rank by MB/s ----
+    def worker_speed(item):
+        c = item["config"]
+        proc, port, cfg_path = spawn_xray(xray_bin, c)
+        if not proc:
+            return 0.0
+        try:
+            return test_download_speed(port)
+        except Exception:
+            return 0.0
+        finally:
+            cleanup_xray(proc, cfg_path)
 
-    # Write all_ok.txt (everything that passed, up to 200)
-    with open(ALL_OK_FILE, "w") as f:
-        f.write("\n".join(config_to_uri(r["config"]) for r in results[:200]) + ("\n" if results else ""))
+    print(f"main: stage 6 — speed-testing top {len(top_candidates)} candidates (5MB download each)")
+    speed_workers = min(workers, 8)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=speed_workers) as ex:
+        futs = {ex.submit(worker_speed, it): it for it in top_candidates}
+        for i, fut in enumerate(concurrent.futures.as_completed(futs), 1):
+            futs[fut]["speed_mbps"] = fut.result()
+            if i % 10 == 0:
+                print(f"         speed-tested {i}/{len(top_candidates)}")
 
-    # Write stats.md
+    # Re-rank by download speed (fastest first)
+    top_candidates.sort(key=lambda r: -r["speed_mbps"])
+
+    # ---- Stage 7: write output files ----
+    write_outputs(top_candidates, passed_stage34, all_items,
+                  per_source_raw, history, stats_stage,
+                  total_gathered, len(items), retention_days, sources)
+
+    # ---- Finalize history ----
     history["stats"] = {
         "total_runs": history.get("stats", {}).get("total_runs", 0) + 1,
         "last_run_at": datetime.now(timezone.utc).isoformat(),
-        "last_run_configs_checked": len(configs),
-        "last_run_alive": sum(1 for r in results if r),
-        "last_run_gemini_ok": len(results),
+        "last_run_configs_gathered": total_gathered,
+        "last_run_configs_tested": len(items),
+        "last_run_passed_latency": len(passed_stage34) + stats_stage.get("gemini_fail", 0),
+        "last_run_passed_gemini": len(passed_stage34),
+        "last_run_top_n": len(top_candidates),
+        "drop_reasons": stats_stage,
+        "per_source_raw": per_source_raw,
     }
     save_history(history)
-    write_stats_md(history, top30, configs)
     print("main: done")
 
 
-def write_stats_md(history: dict, top30: list, all_configs: list):
+def make_name(rank: int, r: dict) -> str:
+    cc = r.get("country_code") or "??"
+    flag = country_flag(cc)
+    city = r.get("city") or ""
+    region = r.get("region") or ""
+    # Combine city + region but trim if too long
+    loc_parts = [p for p in [city, region] if p]
+    loc = " ".join(loc_parts)[:25] if loc_parts else cc
+    return f"{rank} | {flag} {loc} | {r['streak_days']}d | {r['latency_ms']}ms | {r['speed_mbps']} MB/s"
+
+
+def write_outputs(top_n, all_passed, all_items, per_source_raw,
+                  history, stats_stage, total_gathered, total_tested,
+                  retention_days, sources):
+    # ---- top50.txt ----
+    lines = []
+    for i, r in enumerate(top_n, 1):
+        name = make_name(i, r)
+        r["config"]["remark"] = name
+        lines.append(config_to_uri(r["config"]))
+    with open(TOP_FILE, "w") as f:
+        f.write("\n".join(lines) + ("\n" if lines else ""))
+
+    # ---- shadowsocks.txt (all SS configs that passed stage 3+4) ----
+    ss_lines = []
+    for r in all_passed:
+        if r["config"]["protocol"] == "shadowsocks":
+            r["config"]["remark"] = make_name(0, r).lstrip("0 | ").split(" | ", 1)[1] if " | " in make_name(0, r) else make_name(0, r)
+            ss_lines.append(config_to_uri(r["config"]))
+    with open(SS_FILE, "w") as f:
+        f.write("\n".join(ss_lines) + ("\n" if ss_lines else ""))
+
+    # ---- all_ok.txt (all passed, up to 200) ----
+    with open(ALL_OK_FILE, "w") as f:
+        f.write("\n".join(config_to_uri(r["config"]) for r in all_passed[:200])
+                + ("\n" if all_passed else ""))
+
+    # ---- stats.md ----
     s = history.get("stats", {})
     md = ["# gemini-filter stats", ""]
-    md.append(f"- **Last run:** {s.get('last_run_at', '?')}")
-    md.append(f"- **Total runs:** {s.get('total_runs', 0)}")
-    md.append(f"- **Configs checked:** {s.get('last_run_configs_checked', 0)}")
-    md.append(f"- **Passed (alive + Gemini + <600ms):** {s.get('last_run_gemini_ok', 0)}")
-    md.append(f"- **Tracked in history:** {len(history.get('configs', {}))}")
+    md.append(f"- **Last run:** {datetime.now(timezone.utc).isoformat()}")
+    md.append(f"- **Total runs:** {s.get('total_runs', 0) + 1}")
+    md.append(f"- **Configs gathered (raw, all sources):** {total_gathered}")
+    md.append(f"- **Configs tested (after balanced cap to {MAX_CONFIGS}):** {total_tested}")
+    md.append(f"- **Passed latency (< {LATENCY_CUTOFF_MS}ms) + real Gemini check:** {len(all_passed)}")
+    md.append(f"- **Drop reasons:** {stats_stage}")
+    md.append(f"- **History retention:** {retention_days} days")
     md.append("")
-    md.append("## Top 30")
+
+    # Per-source breakdown
+    md.append("## Source breakdown (this run)")
     md.append("")
-    md.append("| # | Country | Streak | Latency | Score |")
-    md.append("|---|---------|--------|---------|-------|")
-    for i, r in enumerate(top30, 1):
-        md.append(f"| {i} | {r['country_code'] or '??'} | {r['streak_days']}d | {r['latency_ms']}ms | {r['score']} |")
+    md.append("| Source | Type | Raw configs | Unique after dedup |")
+    md.append("|--------|------|-------------|---------------------|")
+    per_source_unique = {}
+    for it in all_items:
+        per_source_unique[it["source_name"]] = per_source_unique.get(it["source_name"], 0) + 1
+    for src in sorted(per_source_raw.keys()):
+        raw = per_source_raw.get(src, 0)
+        uniq = per_source_unique.get(src, 0)
+        # determine type
+        stype = "subscription" if any(s["name"] == src for s in sources.get("subscriptions", [])) else "telegram"
+        md.append(f"| {src} | {stype} | {raw} | {uniq} |")
     md.append("")
+
+    # Protocol breakdown
+    proto_counts = {}
+    for r in all_passed:
+        proto_counts[r["config"]["protocol"]] = proto_counts.get(r["config"]["protocol"], 0) + 1
+    md.append("## Protocol breakdown (passed filters)")
+    md.append("")
+    md.append("| Protocol | Count |")
+    md.append("|----------|-------|")
+    for p in sorted(proto_counts.keys()):
+        md.append(f"| {p} | {proto_counts[p]} |")
+    md.append("")
+    md.append(f"Shadowsocks-only file: **{len(ss_lines)} configs** in `shadowsocks.txt`")
+    md.append("")
+
+    # Top 50 table
+    md.append(f"## Top {len(top_n)} (ranked by download speed)")
+    md.append("")
+    md.append("| # | Country | City | Streak | Latency | Speed |")
+    md.append("|---|---------|------|---------|---------|-------|")
+    for i, r in enumerate(top_n, 1):
+        md.append(f"| {i} | {country_flag(r.get('country_code') or '??')} {r.get('country_code') or '??'} | "
+                 f"{(r.get('city') or '')} {(r.get('region') or '')}".strip() + " | "
+                 f"{r['streak_days']}d | {r['latency_ms']}ms | {r['speed_mbps']} MB/s |")
+    md.append("")
+
     with open(STATS_FILE, "w") as f:
         f.write("\n".join(md))
 

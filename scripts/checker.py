@@ -367,29 +367,34 @@ def gather_configs(sources: dict) -> list:
         seen.add(sig)
         out.append({"config": c, "source_name": source_name, "source_type": source_type})
 
-    for sub in sources.get("subscriptions", []):
-        if not sub.get("enabled", True):
-            continue
-        try:
-            print(f"fetch: subscription {sub['name']}")
-            for line in fetch_subscription(sub["url"]):
-                c = parse_config(line)
-                if c:
-                    add(c, sub["name"], "subscription")
-        except Exception as e:
-            print(f"warn: sub {sub['name']}: {e}")
+    # Fetch all sources in parallel — one slow Telegram channel can't stall the others.
+    def fetch_one(source):
+        """Returns (source_name, source_type, list_of_raw_lines)."""
+        if "url" in source:  # subscription
+            try:
+                return source["name"], "subscription", fetch_subscription(source["url"])
+            except Exception as e:
+                print(f"warn: sub {source['name']}: {e}")
+                return source["name"], "subscription", []
+        else:  # telegram
+            try:
+                return source["username"], "telegram", fetch_telegram(source["username"])
+            except Exception as e:
+                print(f"warn: tg {source['username']}: {e}")
+                return source["username"], "telegram", []
 
-    for tg in sources.get("telegram_channels", []):
-        if not tg.get("enabled", True):
-            continue
-        try:
-            print(f"fetch: telegram {tg['username']}")
-            for line in fetch_telegram(tg["username"]):
+    active_sources = [s for s in sources.get("subscriptions", []) if s.get("enabled", True)] + \
+                     [t for t in sources.get("telegram_channels", []) if t.get("enabled", True)]
+    print(f"fetch: {len(active_sources)} sources in parallel")
+    with concurrent.futures.ThreadPoolExecutor(max_workers=min(16, len(active_sources) or 1)) as ex:
+        futs = [ex.submit(fetch_one, s) for s in active_sources]
+        for fut in concurrent.futures.as_completed(futs):
+            src_name, src_type, lines = fut.result()
+            print(f"fetch: {src_name} -> {len(lines)} raw lines")
+            for line in lines:
                 c = parse_config(line)
                 if c:
-                    add(c, tg["username"], "telegram")
-        except Exception as e:
-            print(f"warn: tg {tg['username']}: {e}")
+                    add(c, src_name, src_type)
 
     return out, per_source_raw
 
@@ -415,12 +420,12 @@ def balanced_random_pull(items: list, max_n: int) -> list:
         random.shuffle(lst)
         if len(lst) <= base_quota:
             result.extend(lst)
-            leftover_pool.extend(lst)  # this source's full set is in; nothing to spare
-            # leftover slot is redistributed to others; skip
+            # Do NOT add lst to leftover_pool here — it's already in result.
+            # Adding it again would cause duplicate testing of small-source configs.
         else:
             take = lst[:base_quota]
             result.extend(take)
-            leftover_pool.extend(lst[base_quota:])  # extras go to the leftover redistribution pool
+            leftover_pool.extend(lst[base_quota:])  # only the EXTRAS go to redistribution
 
     # fill remaining slots from leftover_pool
     needed = max_n - len(result)
@@ -472,7 +477,7 @@ def spawn_xray(xray_bin: str, c: dict) -> tuple:
             try: os.remove(cfg_path)
             except OSError: pass
             return None, None, None
-        time.sleep(0.15)
+        time.sleep(0.03)  # local xray starts in 15-30ms; polling faster doesn't waste time
     # timeout — port didn't open in 1.5s
     cleanup_xray(proc, cfg_path)
     return None, None, None
@@ -489,13 +494,17 @@ def cleanup_xray(proc, cfg_path):
 
 
 def curl_through_socks(port: int, url: str, timeout: int, extra_args: list = None) -> tuple:
-    """Run curl through the SOCKS proxy, return (returncode, stdout, stderr)."""
+    """Run curl through the SOCKS proxy, return (returncode, stdout, stderr).
+    --connect-timeout is shorter than --max-time so dead proxies fail fast at the
+    TCP layer instead of waiting the full timeout."""
+    conn_timeout = min(3, max(1, timeout // 2))
     cmd = ["curl", "-sS", "-x", f"socks5h://127.0.0.1:{port}",
+           "--connect-timeout", str(conn_timeout),
            "--max-time", str(timeout), "-L"]
     if extra_args:
         cmd.extend(extra_args)
     cmd.append(url)
-    r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout + 5)
+    r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout + 3)
     return r.returncode, r.stdout, r.stderr
 
 
@@ -730,6 +739,31 @@ def main():
         print(f"main: stage 2 — no cap needed ({len(all_items)} <= {MAX_CONFIGS})")
 
     xray_bin = ensure_xray()
+
+    # ---- Stage 2.5: Fast TCP pre-filter ----
+    # Most public proxy configs point at servers that aren't even listening on the
+    # port. A raw TCP socket.connect() takes 0.5–1.5s on a dead host, vs 0.05s on
+    # a live one. Spawning xray+curl on a dead host wastes 8s of worker time.
+    # We can run 200 TCP probes in parallel and drop ~80% of bad configs in <15s.
+    def tcp_ping(c: dict, timeout: float = 1.5) -> bool:
+        try:
+            with socket.create_connection((c["address"], int(c["port"])), timeout=timeout):
+                return True
+        except Exception:
+            return False
+
+    print(f"main: stage 2.5 — TCP pre-filter on {len(items)} configs (1.5s timeout, 200 workers)")
+    pre_filter_alive = []
+    pre_filter_dead = 0
+    with concurrent.futures.ThreadPoolExecutor(max_workers=200) as ex:
+        futs = {ex.submit(tcp_ping, it["config"]): it for it in items}
+        for fut in concurrent.futures.as_completed(futs):
+            if fut.result():
+                pre_filter_alive.append(futs[fut])
+            else:
+                pre_filter_dead += 1
+    items = pre_filter_alive
+    print(f"main: stage 2.5 — {len(items)} alive, {pre_filter_dead} dropped (TCP closed)")
 
     # ---- Stage 3+4: latency test → drop >600ms → real Gemini test ----
     passed_stage34 = []

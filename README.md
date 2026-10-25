@@ -79,15 +79,6 @@ After editing → commit / push. Next hourly run picks it up. **No secrets, no C
 | `stats.md` | human-readable run summary + top 30 table |
 | `scripts/checker.py` | the engine |
 | `.github/workflows/checker.yml` | hourly run (public repo = unlimited minutes) |
-| `.github/workflows/snake.yml` | daily contribution snake SVG |
-
-## Snake
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/m-hesam-moradian/gemini-filter/output/github-contribution-grid-snake-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/m-hesam-moradian/gemini-filter/output/github-contribution-grid-snake.svg">
-  <img alt="github contribution snake" src="https://raw.githubusercontent.com/m-hesam-moradian/gemini-filter/output/github-contribution-grid-snake.svg">
-</picture>
 
 ## Notes
 

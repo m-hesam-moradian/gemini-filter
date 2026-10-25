@@ -1,36 +1,43 @@
 # gemini-filter stats
 
-- **Last run:** 2026-10-25T10:17:10.496148+00:00
-- **Total runs:** 9
-- **Configs gathered (raw, all sources):** 3804
-- **Configs tested (after balanced cap to 1000):** 309
-- **Passed latency (< 600ms) + real Gemini check:** 7
-- **Drop reasons:** {'latency_fail': 85, 'gemini_fail': 8, 'xray_fail': 0, 'xray_died': 198, 'latency_high': 11}
+- **Last run:** 2026-10-25T10:41:27.947013+00:00
+- **Total runs:** 10
+- **Configs gathered (raw, all sources):** 1185
+- **Configs tested (after balanced cap to 5000):** 497
+- **Per-source cap:** 1000 (each source contributes at most 1000 unique configs)
+- **Passed latency (< 600ms) + real Gemini check:** 10
+- **Drop reasons:** {'latency_fail': 93, 'gemini_fail': 27, 'xray_fail': 0, 'xray_died': 334, 'latency_high': 33}
 - **History retention:** 30 days
 
 ## Source breakdown (this run)
 
-| Source | Type | Raw configs | Unique after dedup |
-|--------|------|-------------|---------------------|
-| example-sub-2 | subscription | 4048 | 3798 |
-| v2rayng_free | telegram | 12 | 6 |
+| Source | Type | Status | Raw | Unique |
+|--------|------|--------|-----|--------|
+| __history_survivors__ | (history) | ok | 33 | 0 |
+| mahdibland | subscription | ok | 4048 | 1000 |
+| mifa-world | subscription | ok | 200 | 179 |
+| v2rayng_free | telegram | ok | 12 | 6 |
 
 ## Protocol breakdown (passed filters)
 
 | Protocol | Count |
 |----------|-------|
-| shadowsocks | 7 |
+| shadowsocks | 9 |
+| vmess | 1 |
 
-Shadowsocks-only file: **7 configs** in `shadowsocks.txt`
+Shadowsocks-only file: **9 configs** in `shadowsocks.txt`
 
-## Top 7 (ranked by download speed)
+## Top 10 (ranked by download speed)
 
 | # | Country | City | Streak | Latency | Speed |
 |---|---------|------|---------|---------|-------|
-| 1 | 🇺🇸 US | New York City New York | 1d | 222ms | 20.23 MB/s |
-| 2 | 🇺🇸 US | Miami Florida | 1d | 241ms | 11.54 MB/s |
-| 3 | 🇺🇸 US | Dallas Texas | 1d | 393ms | 8.05 MB/s |
-| 4 | 🇨🇦 CA | Montreal Quebec | 1d | 294ms | 4.86 MB/s |
-| 5 | 🇬🇧 GB | London England | 1d | 291ms | 4.04 MB/s |
-| 6 | 🇯🇵 JP | Tokyo Tokyo | 1d | 499ms | 2.16 MB/s |
-| 7 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 1d | 584ms | 0.68 MB/s |
+| 1 | 🇺🇸 US | Dallas Texas | 1d | 156ms | 10.44 MB/s |
+| 2 | 🇺🇸 US | Phoenix Arizona | 1d | 116ms | 5.74 MB/s |
+| 3 | 🇺🇸 US | New York City New York | 1d | 188ms | 5.74 MB/s |
+| 4 | 🇺🇸 US | New York City New York | 1d | 392ms | 5.38 MB/s |
+| 5 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 1d | 504ms | 2.18 MB/s |
+| 6 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 1d | 488ms | 2.14 MB/s |
+| 7 | 🇦🇹 AT | Vienna Vienna | 1d | 531ms | 2.12 MB/s |
+| 8 | 🇰🇷 KR | Seoul Seoul | 1d | 510ms | 2.09 MB/s |
+| 9 | 🇮🇹 IT | Milan Lombardia | 1d | 513ms | 2.09 MB/s |
+| 10 | 🇺🇸 US | New York City New York | 1d | 354ms | 0.0 MB/s |

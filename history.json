@@ -1,0 +1,4512 @@
+{
+  "configs": {
+    "shadowsocks|156.146.38.169|443|shadowsocks": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|156.146.38.168|443|shadowsocks": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|37.19.198.243|443|shadowsocks": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|193.151.160.9|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|45.86.51.18|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|193.151.163.18|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|193.151.160.18|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|185.230.230.18|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|156.146.38.170|443|shadowsocks": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|37.19.198.160|443|shadowsocks": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|37.19.198.244|443|shadowsocks": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|156.146.38.167|443|shadowsocks": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|37.19.198.236|443|shadowsocks": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|146.70.61.37|8080|14fFPrbezE3HDZzsMOr6": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.202|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|185.176.206.9|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|137.184.174.93|8080|14fFPrbezE3HDZzsMOr6": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|185.176.204.18|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.203|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.210|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.194|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.180|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.184|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.205|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.186|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|202.50.253.99|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.206|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.214|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.216|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|138.199.42.68|8080|14fFPrbezE3HDZzsMOr6": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.191|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|185.164.175.81|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.192|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.212|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|202.50.253.18|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|193.29.139.147|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.181|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.193|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|202.50.253.27|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|202.50.253.90|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|82.110.60.9|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|202.50.253.54|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|193.29.139.168|8080|QCXDxuDlTTMD7jtgHUjIoj": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.208|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|202.50.253.81|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|202.50.253.72|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.190|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|193.29.139.223|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|202.50.253.63|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.189|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.217|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.179|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.207|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|149.22.95.183|443|shadowsocks": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|173.244.56.9|443|shadowsocks": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "trojan|blog.findlocaljobnetworkandbuildcommunityconnections.com|443|dba20dcb635e430fa4d3bfc303a149d2": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|resources.findlocaljobnetworkandbuildcommunityconnections.com|443|f0eb8c92ce8946aaba856569cff1a16b": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|202.50.253.36|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|173.244.56.6|443|shadowsocks": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|202.50.253.45|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|95.215.201.18|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|139.84.166.47|8388|GEdoeeqLZtkJRgSa": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|57.131.48.45|8388|itzvpn@321": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "vmess|57.129.132.223|80|a25cbf11-2908-4a1b-a3a8-9a571777dca3": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|jus134.pacemakere.com|20017|ee844c5ef7504bcf": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|109.201.152.181|443|shadowsocks": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.10|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|193.29.139.151|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.16|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|141.98.101.181|443|shadowsocks": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "vmess|172.67.187.145|80|0cf6d970-3f1d-4aae-a989-92a8f76ae3db": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.46|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|158.173.24.73|443|shadowsocks": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|104.21.7.133|80|0cf6d970-3f1d-4aae-a989-92a8f76ae3db": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.159|443|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.42|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.187|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|193.29.139.204|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.162|443|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.48|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.47|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.2|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.149|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.82|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|149.22.87.240|443|shadowsocks": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|193.29.139.235|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.49|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.66|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.3|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.171|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.174|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|149.22.87.241|443|shadowsocks": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.155|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.170|443|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|178.83.185.156|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.62|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.35|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|149.22.87.204|443|shadowsocks": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|68.183.227.4|8080|14fFPrbezE3HDZzsMOr6": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.34|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.61|8080|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.176|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|gu232.izzzzzi.com|20052|e56e752c86a640cd": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|102.37.156.224|443|aduB9HGxQHjA2SBMRjkHX6": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|102.133.165.160|16233|Xsy8Ox4yOV3xLlpxtjzs3X": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|51.79.64.198|8119|cdBIDV42DCwnfIN": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|51.222.155.113|5601|Y6R9pAtvxxzmGC": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|216.105.168.18|443|hCCWOcIsK5wrFz4OX70rWf": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.174|443|oZIoA69Q8yhcQV8ka3Pa3A": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|84.247.155.196|443|3eOFeNssde7PYYMv": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|104.17.147.222|80|0cf6d970-3f1d-4aae-a989-92a8f76ae3db": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|51.222.136.236|8882|kDWvXYZoTBcGkC4": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|191.223.221.53|8388|JuD6MNgtX3nVpCzFzXYVYjDTZ7nsmaTv": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "vmess|us5-1.998998.best|443|5504eaa8-1395-402f-8e0e-75ecd762e627": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.199|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "vmess|145.239.55.210|80|067fcd63-b215-4abd-8529-ae929a9971a9": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|5.188.181.201|9027|EXN3S3eQpjE7EJu8": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|132.243.175.144|8388|e8KgS8fD0yDqYFpgN4G5piCOt9aFyqA3": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|129.146.77.248|39495|f836c736-87fc-4fde-aabc-00857ecdff3e": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|5.188.181.201|9025|XPtzA9sCug3SPR4c": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|5.188.181.201|9005|ZET59LF6DvCC8KVt": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.218|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|82.38.31.219|8080|k1dBOmOB4oqi7Ump37a1bQ": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|185.213.23.63|990|ARgvGZywA+gacgGV26Bvmu05+wZmRW/j+AdU+Z8Bt44=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|5.188.181.201|9001|UkXRsXvR6buDMG2Y": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|p141.panda001.net|4652|qwerREWQ@@": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|54.37.131.126|80|6deef9ad-1357-443d-f95c-cb18952c20b3": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|15.204.247.206|4444|pKEW8JPByTVTLtM": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|172.67.167.78|8443|60441548-b68e-43b2-8191-e3b884be4b3c": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|eu3.998998.best|443|5504eaa8-1395-402f-8e0e-75ecd762e627": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|uis175.pacemakere.com|20005|7343dd3d00b74cd2": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|57.128.164.21|80|bda82bcd-f6e2-46ae-9552-673f0b87ac30": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "vmess|666.cf.cname.vvhan.com|443|5504eaa8-1395-402f-8e0e-75ecd762e627": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|staging.lastilhame.monster|49917|G9ZuLN5DE9qqouTZwYUcvYsDJx8gyL1nCu3N7yRZFjPmYKhzSi8GkpVuexmTHAz2uvcErKkex1K2ceR2GH3L444HRNnN1YpP": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "vmess|104.21.57.84|8443|60441548-b68e-43b2-8191-e3b884be4b3c": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|84.247.155.196|80|3eOFeNssde7PYYMv": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|103.36.91.32|8388|asd123456": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|172.64.80.1|8443|60441548-b68e-43b2-8191-e3b884be4b3c": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|94.156.250.148|7001|RexnBgU7EV5ADxG": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|2.27.109.179|45464|XuMweB2PWs": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|154.46.31.106|443|QFWzCw2uX9B9i6qAYeFBIE": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|211.178.105.134|6123|qwerREWQ@@": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|i2psm3knof5qjjix.v.3dns.vip|443|f23bb427-c1f9-4373-876c-2f43e9f790f3": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|bogging-eyeteeth-fly.freesocks.work|443|QFWzCw2uX9B9i6qAYeFBIE": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|141.164.45.187|6679|TEzjfAYq2IjtuoS": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|57.129.113.16|8388|NcAXc0UZI6yQJE1p8QmOv8": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|51.222.200.165|5000|Y6R9pAtvxxzmGC": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|47.243.153.153|443|f23bb427-c1f9-4373-876c-2f43e9f790f3": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|183.236.51.2|10820|7d223bae-e183-4bf6-89c3-e327b15df490": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|198.98.53.130|443|eDfN7SODQceIOmIAbtJJtK": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "vmess|156.245.232.239|35043|b15e481d-17e4-41a8-84c2-23d4f0514d9a": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|51.222.141.125|445|zDNVedRFPQexG9v": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|47.244.120.197|44867|845e6b08-2919-4290-ade0-5dc7dcea59ca": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|15.235.147.186|80|6fea1649-425b-4092-bf53-29792152c925": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|167.88.61.14|8000|KixLvKzwjekG00rm": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|154.36.158.197|8388|BeaUf9c0AEWH40Pu": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|45.66.134.176|803|G!yBwPWH3Vao": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|172.111.146.64|80|05b8c783-7f59-47f9-9923-06a465679f6a": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|141.101.114.120|443|33aa57df-1c93-4318-9fce-e850437ee781": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|185.215.132.9|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|185.215.132.18|19999|ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|119.36.161.40|443|946ba5df-5771-4873-a3cb-892378526147": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.91.102.72|2376|faBAoD54k87UJG7": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|wjofHsQtEuEywxEq.v.3dns.vip|443|a9f4de8b-68f1-44b6-b6a2-1db60940503a": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|167.88.61.14|6697|TEzjfAYq2IjtuoS": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|47.244.120.197|23026|b9de1bc9-baa7-41ac-86f7-ccd59695cb21": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|or.521166.xyz|2083|ac251237-576f-40c8-a543-554960c958b1": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|167.88.61.14|8008|XKFKl2rULjIp74": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|194.68.44.42|64546|U83u9OGpvSatIUW7LsWffr": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|172.67.196.0|443|4db99e96-3ee3-419c-b1fb-856975801380": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.121.43.71|3306|Y6R9pAtvxxzmGC": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|149.102.132.184|443|g5h5jleTRSyO3Rk4": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.114.114.19|7306|FoOiGlkAA9yPEGP": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|183.245.146.6|21001|24913fd0-a94b-4ed9-9b0e-fddb06af63d3": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|149.102.132.184|80|g5h5jleTRSyO3Rk4": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.114.114.19|8000|KixLvKzwjekG00rm": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|152.67.8.205|80|9db4c708-aef8-4359-821b-38e47990be0d": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|223.111.122.199|38080|6248895b-4255-4f07-9479-d198bc1eb8db": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|66.23.203.21|59689|ae7eb4dwyaz25pxwgq59": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|5.188.181.201|9011|M3t2ZEQcMGRWBjRa": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.114.114.19|6379|zDNVedRFPQexG9v": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|51.222.155.32|5003|g5MeD6Ft3CWlJId": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.75.136.21|5004|g5MeD6Ft3CWlJId": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|104.31.16.196|443|e357cd63-f1a5-4c8e-c42e-26da11207fee": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|lv1.dedushka.top|443|4_VfP9fKaM-3LpSVvoZuc_WUzLoCdHaA": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|it1.dedushka.top|443|4_VfP9fKaM-3LpSVvoZuc_WUzLoCdHaA": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|195.133.5.194|18443|NTiHBg64fsY8u8DbGrtypD9gPGSL386p": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|212.227.228.91|10000|21790ffe-4f82-11ed-bec7-03f211755ed3": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|de7.dedushka.top|443|4_VfP9fKaM-3LpSVvoZuc_WUzLoCdHaA": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|pl1.dedushka.top|443|4_VfP9fKaM-3LpSVvoZuc_WUzLoCdHaA": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|219.76.13.175|443|ZlYZ0KxC8uxngp736aR34y3TaFwFOC95DO2XR8yeeAD3cESNDSCBqAYIjpaSlz": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|141.101.115.120|443|33aa57df-1c93-4318-9fce-e850437ee781": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|dns2.m3hrzd.ir|8044|eLXzVwBgkN77aIof2pEhaYmpATVZVIlh": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|219.76.13.180|443|F3CSSRxD8uljgF73IAn34C3aE9wSqAzZDp5ZOCpxDBRacNYelOYayKTe826Xy0": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|130.49.189.158|43558|nQeEoXC5Yl5PZnPLvKUpFTU9cyQcNG902zpibWkwGbo=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|vjp1.0bad.com|443|927094d3-d678-4763-8591-e240d0bcae87": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.121.43.71|6379|zDNVedRFPQexG9v": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|169.197.141.5|3306|Y6R9pAtvxxzmGC": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|de2.dedushka.top|443|4_VfP9fKaM-3LpSVvoZuc_WUzLoCdHaA": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|143.198.237.122|10002|ca98d907-57b1-4eab-b272-6eb248b71084": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|165.22.4.188|10003|ca98d907-57b1-4eab-b272-6eb248b71084": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|198.41.212.150|443|5f64fa65-7b14-49c5-954d-aa15c6bfcacd": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|67.159.18.34|17001|I6o9NnialYLMEjVt28RF4dpjmr9wMvNL": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|157.254.193.68|10020|f1f45005-f074-430b-a4db-7109f50c3bce": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|134.195.198.95|8091|PCnnH6SQSnfoS27": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|167.88.61.14|9102|e4FCWrgpkji3QY": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|5.188.181.201|9003|JdmRK9gMEqFgs8nP": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.91.102.72|8882|kDWvXYZoTBcGkC4": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|5.188.181.201|9019|GA9KzeEgvfxNrgmM": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|64.42.181.102|12996|a7be96a98392ef40dab7693317a81cc0": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.121.43.71|5500|KixLvKzwjekG00rm": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|5.34.178.157|10000|c6a44394-4f83-11ed-af9f-bb261eedc702": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.114.114.19|8009|XKFKl2rULjIp74": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|185.167.116.253|9014|KnJGad3FqTvjqbaX": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|51.222.12.127|445|zDNVedRFPQexG9v": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|185.167.116.253|9050|FG5ddLsMPbV5CutE": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.121.43.71|8882|kDWvXYZoTBcGkC4": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.114.114.19|6679|TEzjfAYq2IjtuoS": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.114.114.67|6697|TEzjfAYq2IjtuoS": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.75.136.21|8080|KixLvKzwjekG00rm": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.114.114.19|5601|Y6R9pAtvxxzmGC": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.75.136.21|5001|Y6R9pAtvxxzmGC": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|185.167.116.24|9097|Sn5B7jTqr76aCJT8": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|78.129.253.9|809|G!yBwPWH3Vao": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.114.114.19|443|pKEW8JPByTVTLtM": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|134.195.196.149|7307|FoOiGlkAA9yPEGP": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.75.136.21|5003|g5MeD6Ft3CWlJId": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.143.66.99|8118|cdBIDV42DCwnfIN": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.143.66.99|5001|Y6R9pAtvxxzmGC": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|51.79.49.116|8882|kDWvXYZoTBcGkC4": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.68.134.85|5600|Y6R9pAtvxxzmGC": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.64.138.145|8080|KixLvKzwjekG00rm": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.68.134.85|6679|TEzjfAYq2IjtuoS": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|213.183.53.222|9014|KnJGad3FqTvjqbaX": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|167.88.63.79|3306|Y6R9pAtvxxzmGC": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|195.154.200.150|2376|faBAoD54k87UJG7": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|supersouth.xn--mesv7f5toqlp.club|12004|dd04c158-1bac-47cd-99c1-5c4f64796dd5": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|145.239.1.100|8080|KixLvKzwjekG00rm": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.121.43.71|8119|cdBIDV42DCwnfIN": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|145.239.1.100|8888|Y6R9pAtvxxzmGC": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|149.202.82.172|6697|TEzjfAYq2IjtuoS": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|172.99.190.39|5500|KixLvKzwjekG00rm": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|213.183.63.221|9001|UkXRsXvR6buDMG2Y": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|145.239.1.100|8882|kDWvXYZoTBcGkC4": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|185.162.228.229|443|56a2188b-2ab7-402c-b9b8-34847fdf0958": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|203.30.190.191|443|56a2188b-2ab7-402c-b9b8-34847fdf0958": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|172.99.190.39|5003|g5MeD6Ft3CWlJId": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|149.202.82.172|8080|KixLvKzwjekG00rm": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|52.58.249.78|57824|pryhyxya": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|167.88.61.175|8080|KixLvKzwjekG00rm": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|203.30.189.191|443|17b2a313-37a0-4945-a8e4-e63375506b4a": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|196.247.59.154|800|G!yBwPWH3Vao": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|203.24.108.9|443|56a2188b-2ab7-402c-b9b8-34847fdf0958": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|lu1.gogogoo.cyou|443|db5d1aa3-908b-44d1-be0a-4e6a8d4e4cda": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|190.93.245.4|443|17b2a313-37a0-4945-a8e4-e63375506b4a": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|198.41.212.123|443|4612618c-24cd-4379-9924-cfdf3d61fa5a": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|190.93.246.4|443|17b2a313-37a0-4945-a8e4-e63375506b4a": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|198.41.203.5|443|4612618c-24cd-4379-9924-cfdf3d61fa5a": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|139.99.61.53|80|60f30e26-0af7-4b64-ba94-71450ed77e23": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|a.v2ray.world|443|05b6b25b-bb5d-4dcd-9710-31e374ffa584": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|38.68.135.18|5500|KixLvKzwjekG00rm": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|141.101.114.134|443|4612618c-24cd-4379-9924-cfdf3d61fa5a": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|141.101.114.31|443|56a2188b-2ab7-402c-b9b8-34847fdf0958": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|5.75.154.136|63456|dab6ce8a-8059-4357-9083-c5283e1908b2": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|103.166.183.226|80|ef919c67-6638-4416-91af-9a13ffe5b9ca": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|172.104.123.158|8097|eIW0Dnk69454e6nSwuspv9DmS201tQ0D": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|fullaccesstojapannetsubnode1.azurewebsites.net|443|274f11c6-f69b-40b9-8966-f39e06e97be7": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|45.64.22.22|443|e55ed7b2-ed4f-480c-8b99-08482da1e4c7": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|51.15.119.36|443|05b6b25b-bb5d-4dcd-9710-31e374ffa584": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|51.68.139.22|80|c6744c44-4eb7-48d5-a879-a10474e2ba34": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|104.18.6.82|443|5ce9cb0d-6b12-4dbd-9114-74fd11dc6f35": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|51.89.138.147|80|0f95cb36-4f7d-45be-b44d-d7a4f221ad49": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|hk80.sanfen001.pics|80|506d93ec-ffdb-41cd-bbc3-367039c4b18f": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|cf-lt.sharecentre.online|443|20e92881-5fb4-4b05-bc77-57929476dc69": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|suzhihan.eu.org|443|0b873cff-11ab-4716-c41a-04f886135091": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|45.79.111.214|443|9d6cceaa373bf2c8acb22e60b6a58be6": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|jp-oracle-s.sharecentre.online|443|20e92881-5fb4-4b05-bc77-57929476dc69": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|news.microsoft.com|443|615a1285-5848-42a1-9859-d4cb37b1fbd8": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|172.67.199.34|443|c6747da4-fb2e-4a2a-bdb7-8614bdd6b0b3": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|51.77.212.145|80|5f6e42bb-2fd1-478b-8f0f-e52b2d6f7652": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|37.32.23.122|443|d12bc882-43c7-415e-87c5-2a7fdc8371c0": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|152.69.230.170|80|6aa24ded-5f15-48c7-8cba-3e2a159d6b77": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|103.56.160.184|80|ef919c67-6638-4416-91af-9a13ffe5b9ca": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|103.75.186.153|80|ef919c67-6638-4416-91af-9a13ffe5b9ca": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|guanwang.awsno.com|443|6a89a215-22bf-4bd7-9642-b95b2e09583a": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|172.67.222.46|80|6fea1649-425b-4092-bf53-29792152c925": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|45.136.244.181|80|a25881f3-967f-3265-bc7f-9e66857b016b": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|141.101.114.150|443|5f64fa65-7b14-49c5-954d-aa15c6bfcacd": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|152.67.254.16|43815|7a9f026f-f7a8-40ca-f2f9-3b380c287c0d": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|64.176.2.21|8388|xBStBEVqvGwHPocc": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|85.208.108.61|8008|XKFKl2rULjIp74": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|120.48.133.162|10086|a01e5d56-464f-45b9-b600-164db4700162": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|de-bots4.h1cloud.net|25267|happybirthdaydaniel": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|de3.dedushka.top|443|4_VfP9fKaM-3LpSVvoZuc_WUzLoCdHaA": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|64.177.90.30|8388|BWyPPTusFKhGgzKh": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "shadowsocks|134.195.196.231|8090|PCnnH6SQSnfoS27": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|de12.dedushka.top|443|4_VfP9fKaM-3LpSVvoZuc_WUzLoCdHaA": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|de5.dedushka.top|443|4_VfP9fKaM-3LpSVvoZuc_WUzLoCdHaA": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|50.7.41.118|17001|I6o9NnialYLMEjVt28RF4dpjmr9wMvNL": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|de8.dedushka.top|443|4_VfP9fKaM-3LpSVvoZuc_WUzLoCdHaA": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|149.104.109.252|8882|kDWvXYZoTBcGkC4": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|de4.dedushka.top|443|4_VfP9fKaM-3LpSVvoZuc_WUzLoCdHaA": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|185.255.179.166|443|humanity": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|51.79.85.185|8118|cdBIDV42DCwnfIN": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "trojan|185.220.100.168|443|humanity": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|45.87.41.18|443|humanity": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|www.calmlunch.com|443|humanity": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|185.114.72.31|2053|humanity": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|pphfree2.mvpnpvpn.de5.net|52351|sxajCTwrlK0zl+zmHpX0p0jXIfatnzlLzWlSQ950L1c=": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": true
+        }
+      ]
+    },
+    "trojan|45.130.125.160|443|humanity": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|165.215.250.14|443|humanity": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|104.19.229.21|443|humanity": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|212.183.88.136|443|humanity": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|45.32.52.173|8886|e26a229d-e8f2-4ff9-8c7d-58a9d83ee437": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|tjhg.m2k699.com|24999|28c4a59d-c2a0-4d6c-ba7d-db6a354990de": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|47.250.84.25|443|5931134d1cde66bf83a54acdfebe7ab2": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|172.66.40.99|443|humanity": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|161.35.192.122|443|humanity": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|46.101.110.34|443|humanity": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|31.57.190.71|443|humanity": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|57.128.179.254|443|humanity": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|209.38.225.64|443|humanity": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|164.92.200.68|443|humanity": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|219.76.13.177|443|humanity": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|pl2.dedushka.top|443|4_VfP9fKaM-3LpSVvoZuc_WUzLoCdHaA": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|43.156.36.253|443|WvH8ooM9hom4KOOJHFJz1x5umE0aV4R0": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|139.180.146.200|8886|e26a229d-e8f2-4ff9-8c7d-58a9d83ee437": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|63.180.254.10|443|amazonskr05": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|ADncdOvLHR4M1P36.v.3dns.vip|443|88888888-8888-8888-8888-888888888888": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|kBONDXW9liFCi4h4.v.3dns.vip|443|88888888-8888-8888-8888-888888888888": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|aZW0eunYVdvRe73k.v.3dns.vip|443|88888888-8888-8888-8888-888888888888": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|syJ2gGUgMwBwQwQx.v.3dns.vip|443|88888888-8888-8888-8888-888888888888": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|Z9FfBx3zs2q5O0BG.v.3dns.vip|443|88888888-8888-8888-8888-888888888888": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|kQov7UKaDknXb8a3.v.3dns.vip|443|88888888-8888-8888-8888-888888888888": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|kneNaKHeSXnZH259.v.3dns.vip|443|88888888-8888-8888-8888-888888888888": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|ASaqYIDZa9WDQ9Kq.v.3dns.vip|443|88888888-8888-8888-8888-888888888888": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|6JiziO8PxQAXBAtZ.v.3dns.vip|443|88888888-8888-8888-8888-888888888888": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|8nTzyR5KNivfabaT.v.3dns.vip|443|88888888-8888-8888-8888-888888888888": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|53vXOVarmgcreAsv.v.3dns.vip|443|88888888-8888-8888-8888-888888888888": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|bJ1Aa2ZyJxYamYuK.v.3dns.vip|443|88888888-8888-8888-8888-888888888888": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|7d0a2gz0-7a0c.aws-agent.net|12103|AA885B42-133C-3828-FB69-E45105C06092": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|7d0a2gz0-7a0c.aws-agent.net|10115|AA885B42-133C-3828-FB69-E45105C06092": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|7d0a2gz0-7a0c.aws-agent.net|12107|AA885B42-133C-3828-FB69-E45105C06092": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|7d0a2gz0-7a0c.aws-agent.net|12102|AA885B42-133C-3828-FB69-E45105C06092": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|63182sh8-4d7b.aws-agent.net|10125|AA885B42-133C-3828-FB69-E45105C06092": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|7d0a2gz0-7a0c.aws-agent.net|10135|AA885B42-133C-3828-FB69-E45105C06092": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|63182sh8-4d7b.aws-agent.net|10155|AA885B42-133C-3828-FB69-E45105C06092": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|63182sh8-4d7b.aws-agent.net|12122|AA885B42-133C-3828-FB69-E45105C06092": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|7d0a2gz0-7a0c.aws-agent.net|12142|AA885B42-133C-3828-FB69-E45105C06092": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|63182sh8-4d7b.aws-agent.net|11171|AA885B42-133C-3828-FB69-E45105C06092": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|216.24.57.225|2083|8yup05o4lz0csoxb": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|tjtw.m2k699.com|24999|29086912-33e4-4e06-ba2b-60f1a195864f": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|104.17.121.9|443|humanity": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|US032018.ssgreen.org|443|c0767dfc-c313-4faa-9053-5554c2a25260": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|US032019.ssgreen.org|443|93d321f8-922f-44c2-acc2-50f25503aa77": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|162.159.36.20|443|humanity": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|220.130.80.179|443|ceb8a7f4-a45b-48a7-8f8e-ca7124a5ebee": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|www.visa.com.sg|2053|f7c5011b-84cc-45d4-a0b3-ce28be0f5807": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|www.visa.com.sg|8443|9d033eb1-22c7-4ae9-9d59-783e40c8eec3": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|tjmg2.m2k699.com|24999|29086912-33e4-4e06-ba2b-60f1a195864f": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|jp4.998998.best|443|5504eaa8-1395-402f-8e0e-75ecd762e627": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|az.hk01.paopaocloud.cyou|10010|d8c5b486-84bb-3887-a1d9-07455ea608f2": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|ah.yd01.paopaocloud.cyou|10020|d8c5b486-84bb-3887-a1d9-07455ea608f2": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|199.115.228.30|253|bwhskrskr05": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|161.35.229.94|443|27848739-7e62-4138-9fd3-098a63964b6b": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|64.112.42.73|443|4946f776-0af3-49f3-acad-d157475d253e": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|shopify.com|80|353bbf5f-a264-4731-e735-984e611c2e01": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|172.105.219.18|443|927094d3-d678-4763-8591-e240d0bcae87": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|23.254.194.215|8080|3c75a551-81d6-46d0-876d-79519719bb22": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|104.233.240.59|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|134.195.196.231|8008|XKFKl2rULjIp74": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|172.67.143.74|443|A9A56660-4554-4278-863A-D3CE30294B59": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|134.195.196.231|6679|TEzjfAYq2IjtuoS": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|172.64.144.100|443|6e9217de-ad7e-4a67-bd17-a6dca951733b": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|172.64.153.150|443|bf4619e4-01dc-48ca-be08-0976b54968ce": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|20.239.145.115|443|4893ed3e-8a5f-48dc-aa1e-bbc2e67a065b": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "shadowsocks|20.210.122.21|443|233blog.com": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|46.182.107.45|443|fe5f69e7-e183-439b-950b-9661ef0651f2": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|sgp.kapok.buzz|443|c1bac6b8-934a-44e2-9cf2-ee0db1fc1c85": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|141.101.115.2|443|a5ba8b2b-8fc5-4521-a35e-9281be61c1c3": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|89.163.157.147|443|b8aedf50-c4f5-4255-b73d-3779db661d70": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|176.112.146.190|80|f9247df4-02d5-4b31-acc5-4022652c5953": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|172.64.155.200|443|a8030afd-812a-4afe-a766-9c76ff3eddd4": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|83.142.225.59|443|5267ca71-97e6-44c8-8fb5-9fe4afe0954e": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|165.154.244.100|443|2cc10f9c-fb02-3e45-b619-c3b98cde912a": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|13.73.229.250|443|4893ed3e-8a5f-48dc-aa1e-bbc2e67a065b": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|198.41.212.30|443|105c635f-918d-4b2a-8c9d-d5426e94eb4b": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|146.59.43.129|443|54c6c823-4957-4c6c-b10c-359bc51f7cc3": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|46.29.218.84|443|f7a456da-9886-4dd7-b193-4c59a726219c": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|185.108.128.60|443|5aab3936-16d7-4377-8c33-0d77f2d295ee": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|shopify.com|80|4397d066-f753-4300-e7ed-44797ddfcd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|85.206.165.36|443|ba49ab05-78f8-4b0b-9400-1826cc2d3f75": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|172.67.218.162|443|70d9bf20-3e6b-4cd3-ff28-b62567ff5a23": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|shopify.com|80|36bd9969-bb96-4bdd-a6df-960bbd8e4439": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|31.22.109.209|443|36793d2c-0d5a-4a84-8862-f9c93e9af5b5": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|185.225.68.232|443|humanity": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|141.101.114.33|443|e5a88ce2-fc1b-45d1-9c5f-553721d28004": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|78.111.102.232|3389|9c050a86-d612-48f1-ec32-e573df08a1b7": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|cold-dawn-9246.fly.dev|443|ea4909ef-7ca6-4b46-bf2e-6c07896ef338": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|162.159.1.33|8080|d9c5ec6a-a8d8-4732-8447-56fbd2f93e96": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|172.67.152.170|2052|7a737f41-b792-4260-94ff-3d864da67b80": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|russia.com|2095|6658a3a6-225a-4d33-a5d2-82cfde565b4e": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|118ejob.ir|80|47d0805b-6b81-49f1-9813-776032d2c076": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|162.159.137.249|8080|028c8131-9e3e-4836-94ac-ea7f24d4d05a": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|3h-kazakhstan1.09vpn.com|80|567f4be5-12ab-42e1-b8d9-db6fd1fdd31c": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|104.21.82.39|2052|7a737f41-b792-4260-94ff-3d864da67b80": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|23.227.38.11|443|b17fa17d-13a0-4e8a-a398-8e549ea8b208": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|23.227.39.24|8080|9258153a-dc97-4e39-9037-009abfc4fed0": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|94.140.0.110|8880|0d1bf26a-ce97-4707-a270-7f4d2ae37334": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|146.56.40.117|27675|053ca0f4-057e-493d-ad30-5ba51f00f59c": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|134.122.41.160|3389|9c050a86-d612-48f1-ec32-e573df08a1b7": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|23.227.38.22|8080|9258153a-dc97-4e39-9037-009abfc4fed0": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|fbi.gov|8080|ef8c954e-014f-4b36-8273-9b5086afab34": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|51.159.155.52|3389|9c050a86-d612-48f1-ec32-e573df08a1b7": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|45.82.31.164|3389|9c050a86-d612-48f1-ec32-e573df08a1b7": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|162.159.134.23|8080|9b196b50-37f2-4f4b-b175-06273adc6207": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|108.181.23.161|8080|969f1909-c0d3-4c30-813d-3aec5c838b7d": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|23.227.38.23|8080|34c0bb5e-c120-432d-9c58-bd7d82c7397b": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|162.159.130.208|8080|55021a7c-bd6c-418e-be95-ceac8ba27b45": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|162.159.5.6|8080|d9c5ec6a-a8d8-4732-8447-56fbd2f93e96": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|hms082.gwdef.sbs|443|bc864078-dcf3-4bf4-8dbf-ca9f200b56be": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|russia.com|8880|6658a3a6-225a-4d33-a5d2-82cfde565b4e": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|172.67.116.48|80|22a13aa2-4854-44cb-e090-ec71ab84b1ff": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|104.21.8.157|2082|112ac36f-3f53-4e26-8371-d25c028e1b9a": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "trojan|95.164.33.62|443|0b1371aa-649d-41dc-9126-338c87936500": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|t1.620720.xyz|8443|516d8a7a-3f0b-41d3-bad0-246116381516": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|172.67.130.140|2082|112ac36f-3f53-4e26-8371-d25c028e1b9a": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|104.21.234.52|80|7022982f-da4c-48c9-c660-b2315abdcf7e": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|cg1c07.waimaojd.com|443|be8e3136-b874-4085-bd23-ec3699300490": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|104.26.4.57|2095|6658a3a6-225a-4d33-a5d2-82cfde565b4e": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|sy4.620720.xyz|443|516d8a7a-3f0b-41d3-bad0-246116381516": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|hgtrojan.zabc.net|2083|e6395c20-4571-4b34-d6b1-55a5d36e49ea": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|cg1c01.waimaojd.com|443|be8e3136-b874-4085-bd23-ec3699300490": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|support.zoom.us|8080|44e57485-eccc-46ef-808f-cd17ac810018": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|cg1c04.waimaojd.com|443|be8e3136-b874-4085-bd23-ec3699300490": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|cg1c14.waimaojd.com|443|be8e3136-b874-4085-bd23-ec3699300490": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|yh1.dtku41.xyz|8080|34c0bb5e-c120-432d-9c58-bd7d82c7397b": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|yh2.dtku41.xyz|8080|9258153a-dc97-4e39-9037-009abfc4fed0": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|172.64.154.102|443|5f64fa65-7b14-49c5-954d-aa15c6bfcacd": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|vde1.0bad.com|443|927094d3-d678-4763-8591-e240d0bcae87": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|172.64.154.150|443|5f64fa65-7b14-49c5-954d-aa15c6bfcacd": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|141.193.213.20|443|4612618c-24cd-4379-9924-cfdf3d61fa5a": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|209.126.84.189|443|2c981164-9b93-4bca-94ff-b78d3f8498d7": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|9641684.sdf65h4.top|443|250c015d-bab0-4ed3-b638-b4eda48f5840": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|47.242.81.94|52080|e47b9f77-60e4-4738-8d53-772b6002e146": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|1.1.1.1|443|36f71b02-04bf-4ab6-8f17-850a002b448d": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|94.128.12.238|443|ecba5b33-f768-4d8a-b004-b29e8e5c676f": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|51.79.102.253|80|58fe1542-5290-40ad-815a-77707a81afe5": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|217.76.64.195|443|4abdf58e-0516-468d-9571-fe25cb4897ef": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|120.28.10.46|80|ecba5b33-f768-4d8a-b004-b29e8e5c676f": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|142.171.79.10|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|37.110.209.228|80|ecba5b33-f768-4d8a-b004-b29e8e5c676f": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|46.182.107.72|30000|375e70f0-5d46-476f-8d69-0fb35c5548a9": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|38.54.185.112|30000|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|142.171.215.99|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|142.4.101.8|30000|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|192.74.243.33|31000|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|20.205.140.244|80|defe8224-819e-436b-87c7-ece80453c3f2": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|142.4.107.184|40000|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|104.17.171.34|80|60be5ddb-c9f1-48ec-b0ee-f6bd4364b3ce": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|109.123.230.157|80|59517e0b-ae1c-41d3-9c44-c44cea6f7546": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|94.131.14.177|2082|2c5fee13-f08b-4ba8-86db-27dd51cb9781": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|142.4.116.241|30000|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|142.4.110.44|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|198.2.204.40|30000|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|95.164.69.27|80|cd4a6d0d-4b26-4ee1-8a42-c2878b5c3b2a": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|180.149.90.66|443|f5c137d1-ca89-42c0-b604-db39aef60a73": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|142.171.61.106|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|142.171.238.19|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|142.0.131.72|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|198.2.222.77|30000|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|137.175.49.221|50000|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|198.2.213.179|30000|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|198.2.204.51|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|38.63.17.164|30000|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|198.2.204.135|30000|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|142.4.104.104|30000|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|103.232.54.160|80|d95cded2-816a-4b5d-bb21-6180bd6d4d3a": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|198.2.202.25|30000|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|137.175.49.195|30000|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|137.175.32.91|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|142.171.237.242|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|148.135.38.107|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|142.4.100.120|30000|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|142.4.96.5|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|137.175.18.85|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|64.32.8.216|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|108.186.116.173|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|142.4.126.34|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|142.171.141.211|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|45.199.138.185|31000|078eb24d-8d1d-4fbd-b914-ee58a897a35e": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|148.135.9.156|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|142.4.116.177|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|137.175.18.182|30000|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|192.74.249.6|30000|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|142.171.215.52|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|137.175.47.183|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|198.2.197.77|30000|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|142.171.187.178|443|418048af-a293-4b99-9b0c-98ca3580dd24": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    },
+    "vmess|92.223.61.25|80|22aa72b1-605b-4807-8a81-fb414cbb409c": {
+      "first_seen": "2026-10-25",
+      "history": [
+        {
+          "date": "2026-10-25",
+          "ok": false
+        }
+      ]
+    }
+  },
+  "last_updated": "2026-10-25T08:06:30.333974+00:00",
+  "stats": {
+    "total_runs": 1,
+    "last_run_at": "2026-10-25T08:06:30.333955+00:00",
+    "last_run_configs_checked": 500,
+    "last_run_alive": 14,
+    "last_run_gemini_ok": 14
+  }
+}

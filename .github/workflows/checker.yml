@@ -1,0 +1,53 @@
+name: hourly-checker
+
+on:
+  schedule:
+    - cron: "0 * * * *"     # every hour, on the hour
+  workflow_dispatch: {}    # manual trigger from Actions tab
+  push:
+    branches:
+      - main
+    paths:
+      - "sources.json"
+      - "scripts/checker.py"
+      - ".github/workflows/checker.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: hourly-checker
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: install deps
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq unzip curl wget
+          curl --version
+
+      - name: run checker
+        run: python scripts/checker.py
+
+      - name: commit results
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add top30.txt all_ok.txt history.json stats.md 2>/dev/null || true
+          git commit -m "chore: hourly config update $(date -u +%Y-%m-%dT%H:%M)" || echo "nothing to commit"
+          git push

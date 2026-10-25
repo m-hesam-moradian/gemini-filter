@@ -1,0 +1,43 @@
+{
+  "_comment": "Edit this file to add your own sources. The checker runs every hour and reads this file fresh each time. Supported types: 'subscription' (a URL that returns a list of v2ray links) and 'telegram' (a Telegram channel @username that posts v2ray links). After editing, just commit/push — the workflow picks it up automatically on the next run.",
+
+  "subscriptions": [
+    {
+      "name": "example-sub-1",
+      "url": "https://raw.githubusercontent.com/barry-far/V2ray-Configs/main/All_Configs_Sub.txt",
+      "enabled": true
+    },
+    {
+      "name": "example-sub-2",
+      "url": "https://raw.githubusercontent.com/mahdibland/V2RayAggregator/master/sub/sub_merge.txt",
+      "enabled": true
+    },
+    {
+      "name": "ADD_YOUR_SUB_HERE",
+      "url": "https://your-subscription-url.txt",
+      "enabled": false
+    }
+  ],
+
+  "telegram_channels": [
+    {
+      "name": "example-channel",
+      "username": "v2rayng_free",
+      "enabled": true
+    },
+    {
+      "name": "ADD_YOUR_CHANNEL_HERE",
+      "username": "channel_username_without_at",
+      "enabled": false
+    }
+  ],
+
+  "test_settings": {
+    "test_url": "https://gemini.google.com/",
+    "test_timeout_seconds": 8,
+    "latency_test_url": "https://www.google.com/generate_204",
+    "max_configs_per_run": 500,
+    "concurrent_workers": 8,
+    "history_retention_days": 100
+  }
+}

@@ -437,7 +437,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": true
+          "ok": false
         }
       ]
     },
@@ -635,7 +635,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": false
+          "ok": true
         }
       ]
     },
@@ -662,7 +662,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": false
+          "ok": true
         }
       ]
     },
@@ -995,7 +995,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": false
+          "ok": true
         }
       ]
     },
@@ -1013,7 +1013,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": true
+          "ok": false
         }
       ]
     },
@@ -1148,7 +1148,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": false
+          "ok": true
         }
       ]
     },
@@ -1319,7 +1319,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": false
+          "ok": true
         }
       ]
     },
@@ -1931,7 +1931,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": false
+          "ok": true
         }
       ]
     },
@@ -2066,7 +2066,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": true
+          "ok": false
         }
       ]
     },
@@ -2651,7 +2651,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": false
+          "ok": true
         }
       ]
     },
@@ -2777,7 +2777,7 @@
       "history": [
         {
           "date": "2026-10-25",
-          "ok": true
+          "ok": false
         }
       ]
     },
@@ -4501,12 +4501,12 @@
       ]
     }
   },
-  "last_updated": "2026-10-25T08:21:24.958599+00:00",
+  "last_updated": "2026-10-25T08:32:17.601377+00:00",
   "stats": {
-    "total_runs": 3,
-    "last_run_at": "2026-10-25T08:21:24.958584+00:00",
+    "total_runs": 4,
+    "last_run_at": "2026-10-25T08:32:17.601357+00:00",
     "last_run_configs_checked": 500,
-    "last_run_alive": 41,
-    "last_run_gemini_ok": 41
+    "last_run_alive": 46,
+    "last_run_gemini_ok": 46
   }
 }

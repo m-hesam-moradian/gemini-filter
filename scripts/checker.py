@@ -53,12 +53,19 @@ XRAY_FALLBACK_VERSIONS = ["v25.10.7", "v25.1.30", "v24.12.18"]
 
 GEMINI_URL = "https://gemini.google.com/"
 LATENCY_URL = "https://www.google.com/generate_204"
-IP_LOOKUP_URL = "https://ipinfo.io/json"
 SPEED_TEST_URL = "https://speed.cloudflare.com/__down?bytes=5000000"  # 5 MB
 
-MAX_CONFIGS = 5000           # hard cap; if exceeded, do balanced random sampling
+MAX_CONFIGS = 5000           # hard fallback cap; actual cap comes from sources.json
 TOP_N = 50                   # final size of top50.txt
 LATENCY_CUTOFF_MS = 600      # drop configs slower than this
+GEMINI_TIMEOUT_S = 10        # the real Gemini page is ~800KB — needs longer than 4s on slow proxies
+GEMINI_MIN_PAGE_SIZE = 100_000  # real app page is ~800KB; 403/error stubs are <2KB
+
+# Countries where Gemini is NOT available. Even if the IP passes the page check,
+# a login-time region check can still block the user, so we drop these outright.
+GEMINI_BLOCKED_COUNTRIES = {
+    "IR", "RU", "BY", "CN", "HK", "MO", "CU", "KP", "SY", "VE", "AF", "MM",
+}
 
 # Phrases Gemini shows when geo-blocked (case-insensitive substring match)
 GEMINI_BLOCK_PHRASES = [
@@ -68,6 +75,8 @@ GEMINI_BLOCK_PHRASES = [
     "is not available in your region",
     "isn't supported in your country",
     "not supported in your region",
+    "isn't supported in your country/region",
+    "not supported in your country/region",
 ]
 
 COUNTRY_SCORES = {
@@ -520,40 +529,101 @@ def test_latency(port: int, timeout: int) -> dict:
     return {"alive": True, "latency_ms": int(float(parts[1]) * 1000)}
 
 
-def test_country_info(port: int, timeout: int) -> dict:
-    """Look up exit IP country/city/region via ipinfo.io. Called only after Gemini passed."""
-    info = {}
-    rc, out, _ = curl_through_socks(port, IP_LOOKUP_URL, timeout)
-    if rc == 0 and out.strip().startswith("{"):
+_EXIT_IP_CACHE = {}  # exit_ip -> {country_code, city, region} — many configs share exits
+
+
+def _geo_lookup_direct(ip: str) -> dict:
+    """
+    Look up geo info for an exit IP, querying DIRECTLY from the runner (not
+    through the proxy). Going through the proxy exit burned ipinfo.io quotas
+    (the shared datacenter exits are abused by thousands of other proxy users),
+    which is why so many configs showed '??' country. Querying directly with a
+    per-IP cache + provider fallback chain is reliable.
+    """
+    if ip in _EXIT_IP_CACHE:
+        return _EXIT_IP_CACHE[ip]
+    info = {"country_code": None, "city": "", "region": ""}
+    # 1) ipwho.is — free, generous limits, returns country_code/city/region
+    try:
+        r = subprocess.run(["curl", "-sS", "--max-time", "5", f"https://ipwho.is/{ip}"],
+                           capture_output=True, text=True, timeout=8)
+        d = json.loads(r.stdout)
+        if d.get("country_code"):
+            info = {"country_code": d["country_code"].upper(),
+                    "city": d.get("city") or "", "region": d.get("region") or ""}
+    except Exception:
+        pass
+    # 2) ip-api.com fallback
+    if not info["country_code"]:
         try:
-            d = json.loads(out)
-            info["country_code"] = (d.get("country") or "").upper() or None
-            info["city"] = d.get("city") or ""
-            info["region"] = d.get("region") or ""
+            r = subprocess.run(
+                ["curl", "-sS", "--max-time", "5",
+                 f"http://ip-api.com/json/{ip}?fields=countryCode,city,regionName"],
+                capture_output=True, text=True, timeout=8)
+            d = json.loads(r.stdout)
+            if d.get("countryCode"):
+                info = {"country_code": d["countryCode"].upper(),
+                        "city": d.get("city") or "", "region": d.get("regionName") or ""}
         except Exception:
             pass
+    _EXIT_IP_CACHE[ip] = info
     return info
 
 
-def test_gemini_real(port: int, timeout: int) -> bool:
+def test_country_info(port: int, timeout: int) -> dict:
     """
-    Stage 4: fetch gemini.google.com and check the page content.
-    Returns True only if the page actually loads (not the geo-block page).
+    Stage 4b: get the exit IP (through the proxy, via ipify — a tiny plain-text
+    response with very high rate limits), then geo-lookup DIRECTLY from the runner.
+    Only called for configs that already passed the Gemini check.
     """
-    # -s silent, -L follow redirects, get the HTML body
-    rc, out, _ = curl_through_socks(port, GEMINI_URL, timeout)
+    info = {}
+    rc, out, _ = curl_through_socks(port, "https://api.ipify.org", timeout)
+    exit_ip = out.strip() if rc == 0 and out.strip() else ""
+    if exit_ip:
+        info = _geo_lookup_direct(exit_ip)
+        info["exit_ip"] = exit_ip
+    return info
+
+
+def test_gemini_real(port: int, timeout: int = GEMINI_TIMEOUT_S) -> bool:
+    """
+    Stage 4: verify the REAL Gemini app page loads — three-part check:
+
+      1. HTTP status must be 200.
+         (Google serves 403 Forbidden to flagged datacenter exit IPs — the page
+         still contains "google" and "<html", so a content-only check passes it.
+         This was the bug that let 403-blocked configs into top50.)
+      2. Page body must be >= GEMINI_MIN_PAGE_SIZE bytes.
+         (The real app page is ~800KB; 403/error stubs are <2KB.)
+      3. Body must not contain geo-block phrases.
+         ("isn't supported in your country/region" etc.)
+    """
+    rc, out, _ = curl_through_socks(
+        port, GEMINI_URL, timeout,
+        extra_args=["-w", "\n__META__%{http_code} %{size_download}"])
     if rc != 0 or not out:
         return False
-    body_lower = out.lower()
-    # If Gemini shows the geo-block page, drop the config
+    marker = "\n__META__"
+    idx = out.rfind(marker)
+    if idx < 0:
+        return False
+    body = out[:idx]
+    meta = out[idx + len(marker):].strip().split()
+    if len(meta) != 2:
+        return False
+    try:
+        status = int(meta[0])
+        size = int(float(meta[1]))
+    except Exception:
+        return False
+    if status != 200:
+        return False
+    if size < GEMINI_MIN_PAGE_SIZE:
+        return False
+    body_lower = body.lower()
     for phrase in GEMINI_BLOCK_PHRASES:
         if phrase in body_lower:
             return False
-    # Heuristic: real Gemini page contains some of these markers
-    # (the marketing page OR the chat app)
-    positive_markers = ["gemini", "google", "<html", "<head"]
-    if not any(m in body_lower for m in positive_markers):
-        return False
     return True
 
 
@@ -689,8 +759,10 @@ def main():
         sources = json.load(f)
     settings = sources.get("test_settings", {})
     retention_days = int(settings.get("history_retention_days", 30))  # was 100, now 30
-    workers = int(settings.get("concurrent_workers", 8))
-    test_timeout = int(settings.get("test_timeout_seconds", 8))
+    workers = int(settings.get("concurrent_workers", 48))
+    test_timeout = int(settings.get("test_timeout_seconds", 4))
+    # Effective cap comes from sources.json (was previously ignored — bug)
+    effective_cap = int(settings.get("max_configs_per_run", MAX_CONFIGS))
 
     history = load_history()
 
@@ -715,14 +787,14 @@ def main():
     else:
         print(f"main: stage 1b — found {len(survivors)} survivors in history, all already in fresh fetch")
 
-    # ---- Stage 2: balanced random pull if > MAX_CONFIGS ----
+    # ---- Stage 2: balanced random pull if > effective_cap ----
     # Survivors are PRESERVED first (they take priority slots), then the remaining
     # slots are split equally across the fresh sources.
-    if len(all_items) > MAX_CONFIGS:
-        print(f"main: stage 2 — capping to {MAX_CONFIGS} (preserving {len(survivors_only)} survivors + balanced random for the rest)")
-        survivors_budget = min(len(survivors_only), MAX_CONFIGS // 4)  # cap survivors at 25% of total
+    if len(all_items) > effective_cap:
+        print(f"main: stage 2 — capping to {effective_cap} (preserving {len(survivors_only)} survivors + balanced random for the rest)")
+        survivors_budget = min(len(survivors_only), effective_cap // 4)  # cap survivors at 25% of total
         kept_survivors = survivors_only[:survivors_budget] if survivors_only else []
-        remaining_budget = MAX_CONFIGS - len(kept_survivors)
+        remaining_budget = effective_cap - len(kept_survivors)
         # Remove survivors from the fresh pool before doing the balanced random pull,
         # so the pull only operates on fresh configs.
         fresh_items = [it for it in all_items if not it.get("from_history")]
@@ -736,7 +808,7 @@ def main():
             print(f"         {src:30} raw={raw:6}  kept={n}")
     else:
         items = all_items
-        print(f"main: stage 2 — no cap needed ({len(all_items)} <= {MAX_CONFIGS})")
+        print(f"main: stage 2 — no cap needed ({len(all_items)} <= {effective_cap})")
 
     xray_bin = ensure_xray()
 
@@ -775,18 +847,22 @@ def main():
         if not proc:
             return None, "xray_died", None
         try:
-            # Stage 3: latency (cheap — drops ~80% of bad configs here)
+            # Stage 3: latency (cheap — drops most bad configs here)
             lat_info = test_latency(port, test_timeout)
             if not lat_info.get("alive"):
                 return None, "latency_fail", None
             if lat_info["latency_ms"] > LATENCY_CUTOFF_MS:
                 return None, "latency_high", lat_info
-            # Stage 4: real Gemini check (drops geo-blocked exit IPs)
-            if not test_gemini_real(port, test_timeout):
+            # Stage 4: real Gemini check — status 200 + full-size page + no geo-block.
+            # Dedicated 10s timeout: the page is ~800KB and 4s truncates it on slow proxies.
+            if not test_gemini_real(port, GEMINI_TIMEOUT_S):
                 return None, "gemini_fail", lat_info
-            # Country lookup is expensive — only do it after Gemini passed
+            # Country lookup only for Gemini-passing configs (exit IP + direct lookup)
             country_info = test_country_info(port, test_timeout)
             lat_info.update(country_info)
+            # Drop countries where Gemini is not available at all
+            if lat_info.get("country_code") in GEMINI_BLOCKED_COUNTRIES:
+                return None, "country_blocked", lat_info
             return lat_info, "ok", None
         except Exception:
             return None, "exception", None
@@ -865,7 +941,7 @@ def main():
     # ---- Stage 7: write output files ----
     write_outputs(top_candidates, passed_stage34, all_items,
                   per_source_raw, history, stats_stage,
-                  total_gathered, len(items), retention_days, sources)
+                  total_gathered, len(items), retention_days, sources, effective_cap)
 
     # ---- Finalize history ----
     history["stats"] = {
@@ -898,7 +974,7 @@ def make_name(rank: int, r: dict) -> str:
 
 def write_outputs(top_n, all_passed, all_items, per_source_raw,
                   history, stats_stage, total_gathered, total_tested,
-                  retention_days, sources):
+                  retention_days, sources, effective_cap):
     # ---- top50.txt ----
     lines = []
     for i, r in enumerate(top_n, 1):
@@ -935,7 +1011,7 @@ def write_outputs(top_n, all_passed, all_items, per_source_raw,
     md.append(f"- **Last run:** {datetime.now(timezone.utc).isoformat()}")
     md.append(f"- **Total runs:** {s.get('total_runs', 0) + 1}")
     md.append(f"- **Configs gathered (raw, all sources):** {total_gathered}")
-    md.append(f"- **Configs tested (after balanced cap to {MAX_CONFIGS}):** {total_tested}")
+    md.append(f"- **Configs tested (after balanced cap to {effective_cap}):** {total_tested}")
     md.append(f"- **Passed latency (< {LATENCY_CUTOFF_MS}ms) + real Gemini check:** {len(all_passed)}")
     md.append(f"- **Drop reasons:** {stats_stage}")
     md.append(f"- **History retention:** {retention_days} days")

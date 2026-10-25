@@ -359,14 +359,22 @@ def fetch_telegram(username: str, timeout: int = 30) -> list:
     return list(set(re.findall(r'(?:vmess|vless|trojan|ss)://[^\s"\'<>]+', html)))
 
 
-def gather_configs(sources: dict) -> list:
+def gather_configs(sources: dict, max_per_source: int = 0):
     """
-    Returns list of dicts: {config, source_name, source_type}
-    Dedup happens GLOBALLY but the first source to provide a config wins attribution.
+    Returns (out, per_source_raw, per_source_status).
+
+    - out: list of {config, source_name, source_type}, deduplicated globally, then capped per-source.
+    - per_source_raw: {source_name: count of all parsed configs (incl. dupes rejected by dedup)}.
+      Pre-initialized to 0 for every enabled source so failed ones still appear in stats.
+    - per_source_status: {source_name: "ok" | "empty" | "error: <msg>"} for ALL enabled sources.
+
+    Dedup happens GLOBALLY — first source to provide a config wins attribution.
+    Per-source cap is applied AFTER dedup, by random sampling.
     """
     seen = set()
     out = []
     per_source_raw = {}
+    per_source_status = {}
 
     def add(c, source_name, source_type):
         sig = config_signature(c)
@@ -378,34 +386,68 @@ def gather_configs(sources: dict) -> list:
 
     # Fetch all sources in parallel — one slow Telegram channel can't stall the others.
     def fetch_one(source):
-        """Returns (source_name, source_type, list_of_raw_lines)."""
+        """Returns (source_name, source_type, list_of_raw_lines, status_str).
+        source_name is the canonical key: `name` for subs, `username` for telegram
+        (matching what write_outputs expects)."""
         if "url" in source:  # subscription
+            name = source["name"]
             try:
-                return source["name"], "subscription", fetch_subscription(source["url"])
+                lines = fetch_subscription(source["url"])
+                status = "ok" if lines else "empty"
+                return name, "subscription", lines, status
             except Exception as e:
-                print(f"warn: sub {source['name']}: {e}")
-                return source["name"], "subscription", []
+                msg = f"error: {type(e).__name__}: {e}"
+                print(f"warn: sub {name}: {e}")
+                return name, "subscription", [], msg
         else:  # telegram
+            name = source["username"]
             try:
-                return source["username"], "telegram", fetch_telegram(source["username"])
+                lines = fetch_telegram(source["username"])
+                status = "ok" if lines else "empty"
+                return name, "telegram", lines, status
             except Exception as e:
-                print(f"warn: tg {source['username']}: {e}")
-                return source["username"], "telegram", []
+                msg = f"error: {type(e).__name__}: {e}"
+                print(f"warn: tg {name}: {e}")
+                return name, "telegram", [], msg
 
     active_sources = [s for s in sources.get("subscriptions", []) if s.get("enabled", True)] + \
                      [t for t in sources.get("telegram_channels", []) if t.get("enabled", True)]
-    print(f"fetch: {len(active_sources)} sources in parallel")
+    print(f"fetch: {len(active_sources)} sources in parallel (max_per_source={max_per_source})")
+
+    # Pre-initialize so failed/empty sources still appear in the stats table.
+    # Use the SAME canonical key as fetch_one: `name` for subs, `username` for telegram.
+    for s in active_sources:
+        name = s["name"] if "url" in s else s["username"]
+        per_source_raw[name] = 0
+        per_source_status[name] = "error: not run"  # overwritten on success/error
+
     with concurrent.futures.ThreadPoolExecutor(max_workers=min(16, len(active_sources) or 1)) as ex:
         futs = [ex.submit(fetch_one, s) for s in active_sources]
         for fut in concurrent.futures.as_completed(futs):
-            src_name, src_type, lines = fut.result()
-            print(f"fetch: {src_name} -> {len(lines)} raw lines")
+            src_name, src_type, lines, status = fut.result()
+            per_source_status[src_name] = status
+            print(f"fetch: {src_name} -> {len(lines)} raw lines ({status})")
             for line in lines:
                 c = parse_config(line)
                 if c:
                     add(c, src_name, src_type)
 
-    return out, per_source_raw
+    # Apply per-source cap: if a source contributed more than max_per_source UNIQUE configs,
+    # randomly downsample. Global dedup already happened above, so this only trims `out`.
+    if max_per_source and max_per_source > 0:
+        by_source = {}
+        for item in out:
+            by_source.setdefault(item["source_name"], []).append(item)
+        capped_out = []
+        for src_name, items in by_source.items():
+            if len(items) > max_per_source:
+                random.shuffle(items)
+                items = items[:max_per_source]
+                print(f"cap: {src_name} had {len(by_source[src_name])} unique, capped to {max_per_source}")
+            capped_out.extend(items)
+        out = capped_out
+
+    return out, per_source_raw, per_source_status
 
 
 def balanced_random_pull(items: list, max_n: int) -> list:
@@ -763,11 +805,12 @@ def main():
     test_timeout = int(settings.get("test_timeout_seconds", 4))
     # Effective cap comes from sources.json (was previously ignored — bug)
     effective_cap = int(settings.get("max_configs_per_run", MAX_CONFIGS))
+    max_per_source = int(settings.get("max_configs_per_source", 0))  # 0 = no per-source cap
 
     history = load_history()
 
     # ---- Stage 1: gather fresh configs from all sources ----
-    all_items, per_source_raw = gather_configs(sources)
+    all_items, per_source_raw, per_source_status = gather_configs(sources, max_per_source)
     total_gathered = len(all_items)
     print(f"main: stage 1 — gathered {total_gathered} unique fresh configs from {len(per_source_raw)} sources")
 
@@ -940,8 +983,9 @@ def main():
 
     # ---- Stage 7: write output files ----
     write_outputs(top_candidates, passed_stage34, all_items,
-                  per_source_raw, history, stats_stage,
-                  total_gathered, len(items), retention_days, sources, effective_cap)
+                  per_source_raw, per_source_status, history, stats_stage,
+                  total_gathered, len(items), retention_days, sources, effective_cap,
+                  max_per_source)
 
     # ---- Finalize history ----
     history["stats"] = {
@@ -972,9 +1016,9 @@ def make_name(rank: int, r: dict) -> str:
     return f"{rank} | {flag} {loc} | {r['streak_days']}d | {r['latency_ms']}ms | {r['speed_mbps']} MB/s | {src}"
 
 
-def write_outputs(top_n, all_passed, all_items, per_source_raw,
+def write_outputs(top_n, all_passed, all_items, per_source_raw, per_source_status,
                   history, stats_stage, total_gathered, total_tested,
-                  retention_days, sources, effective_cap):
+                  retention_days, sources, effective_cap, max_per_source=0):
     # ---- top50.txt ----
     lines = []
     for i, r in enumerate(top_n, 1):
@@ -1012,25 +1056,40 @@ def write_outputs(top_n, all_passed, all_items, per_source_raw,
     md.append(f"- **Total runs:** {s.get('total_runs', 0) + 1}")
     md.append(f"- **Configs gathered (raw, all sources):** {total_gathered}")
     md.append(f"- **Configs tested (after balanced cap to {effective_cap}):** {total_tested}")
+    if max_per_source:
+        md.append(f"- **Per-source cap:** {max_per_source} (each source contributes at most {max_per_source} unique configs)")
     md.append(f"- **Passed latency (< {LATENCY_CUTOFF_MS}ms) + real Gemini check:** {len(all_passed)}")
     md.append(f"- **Drop reasons:** {stats_stage}")
     md.append(f"- **History retention:** {retention_days} days")
     md.append("")
 
-    # Per-source breakdown
+    # Per-source breakdown — shows ALL enabled sources (incl. failed/empty ones) with status.
+    # Previously only sources that returned ≥1 config appeared here, so broken sources
+    # were silently invisible. Now you can spot a 404'd sub at a glance.
     md.append("## Source breakdown (this run)")
     md.append("")
-    md.append("| Source | Type | Raw configs | Unique after dedup |")
-    md.append("|--------|------|-------------|---------------------|")
+    md.append("| Source | Type | Status | Raw | Unique |")
+    md.append("|--------|------|--------|-----|--------|")
     per_source_unique = {}
     for it in all_items:
         per_source_unique[it["source_name"]] = per_source_unique.get(it["source_name"], 0) + 1
+    # Build a (name -> type) lookup from BOTH subscription and telegram entries in sources.json.
+    # IMPORTANT: gather_configs() keys subscriptions by `source["name"]` but telegram by
+    # `source["username"]` — so we mirror that exactly here, otherwise the type column shows "?".
+    src_type_lookup = {}
+    for s in sources.get("subscriptions", []):
+        src_type_lookup[s["name"]] = "subscription"
+    for t in sources.get("telegram_channels", []):
+        src_type_lookup[t["username"]] = "telegram"
     for src in sorted(per_source_raw.keys()):
+        if src == "__history_survivors__":
+            md.append(f"| {src} | (history) | ok | {per_source_raw.get(src, 0)} | {per_source_unique.get(src, 0)} |")
+            continue
         raw = per_source_raw.get(src, 0)
         uniq = per_source_unique.get(src, 0)
-        # determine type
-        stype = "subscription" if any(s["name"] == src for s in sources.get("subscriptions", [])) else "telegram"
-        md.append(f"| {src} | {stype} | {raw} | {uniq} |")
+        stype = src_type_lookup.get(src, "?")
+        status = per_source_status.get(src, "unknown")
+        md.append(f"| {src} | {stype} | {status} | {raw} | {uniq} |")
     md.append("")
 
     # Protocol breakdown

@@ -1,16 +1,23 @@
 {
-  "_comment": "Edit this file to add your own sources. The checker runs every hour and reads this file fresh each time. Supported types: 'subscription' (a URL that returns a list of v2ray links) and 'telegram' (a Telegram channel @username that posts v2ray links). After editing, just commit/push — the workflow picks it up automatically on the next run.",
+  "_comment": "Edit this file to add your own sources. The checker runs every 6h and reads this file fresh each time. Supported types: 'subscription' (a URL that returns a list of v2ray links) and 'telegram' (a Telegram channel @username that posts v2ray links in MESSAGE TEXT — file attachments cannot be scraped without Telegram API auth). After editing, just commit/push — the workflow picks it up automatically on the next run.",
 
   "subscriptions": [
     {
-      "name": "example-sub-1",
+      "name": "barry-far",
       "url": "https://raw.githubusercontent.com/barry-far/V2ray-Configs/main/All_Configs_Sub.txt",
+      "enabled": false,
+      "_note": "disabled 2026-10-25: repo was blocked by GitHub (DMCA?), returns 404"
+    },
+    {
+      "name": "mahdibland",
+      "url": "https://raw.githubusercontent.com/mahdibland/V2RayAggregator/master/sub/sub_merge.txt",
       "enabled": true
     },
     {
-      "name": "example-sub-2",
-      "url": "https://raw.githubusercontent.com/mahdibland/V2RayAggregator/master/sub/sub_merge.txt",
-      "enabled": true
+      "name": "mifa-world",
+      "url": "https://mifa.world/power",
+      "enabled": true,
+      "_note": "the temporary sub link that ShadowProxy66 telegram channel pins; ~200 v2ray configs, refreshed regularly"
     },
     {
       "name": "ADD_YOUR_SUB_HERE",
@@ -21,14 +28,15 @@
 
   "telegram_channels": [
     {
-      "name": "example-channel",
+      "name": "v2rayng_free",
       "username": "v2rayng_free",
       "enabled": true
     },
     {
       "name": "ShadowProxy66",
       "username": "ShadowProxy66",
-      "enabled": true
+      "enabled": false,
+      "_note": "disabled 2026-10-25: this channel posts configs as .txt FILE ATTACHMENTS, not inline text. t.me/s/{user} public preview does NOT expose file downloads without Telegram API auth. Use the mifa.world/power subscription above instead — that's the actual sub link pinned in the channel."
     }
   ],
 
@@ -36,7 +44,8 @@
     "test_url": "https://gemini.google.com/",
     "test_timeout_seconds": 4,
     "latency_test_url": "https://www.google.com/generate_204",
-    "max_configs_per_run": 1000,
+    "max_configs_per_run": 5000,
+    "max_configs_per_source": 1000,
     "concurrent_workers": 48,
     "history_retention_days": 30
   }

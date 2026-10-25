@@ -607,7 +607,8 @@ def save_history(h: dict):
         json.dump(h, f, indent=2)
 
 
-def update_history(h: dict, sig: str, today_ok: bool, retention_days: int) -> dict:
+def update_history(h: dict, sig: str, today_ok: bool, retention_days: int,
+                   uri: str = None, source_name: str = None) -> dict:
     cfgs = h.setdefault("configs", {})
     e = cfgs.get(sig, {"first_seen": today_utc(), "history": []})
     today = today_utc()
@@ -618,6 +619,12 @@ def update_history(h: dict, sig: str, today_ok: bool, retention_days: int) -> di
     cutoff = datetime.now(timezone.utc).timestamp() - retention_days * 86400
     e["history"] = [x for x in e["history"]
                     if datetime.fromisoformat(x["date"]).timestamp() >= cutoff][-retention_days:]
+    # Store the URI + source so we can re-test survivors next run even if they
+    # disappear from the fresh fetch (otherwise their streak would silently reset).
+    if uri:
+        e["uri"] = uri
+    if source_name:
+        e["source_name"] = source_name
     streak = 0
     for entry in reversed(e["history"]):
         if entry["ok"]:
@@ -626,6 +633,35 @@ def update_history(h: dict, sig: str, today_ok: bool, retention_days: int) -> di
             break
     cfgs[sig] = e
     return {"first_seen": e["first_seen"], "streak_days": streak}
+
+
+def previously_alive_configs(h: dict, days_back: int = 3) -> list:
+    """
+    Returns a list of {config, source_name, source_type} dicts for configs that
+    were marked OK in the last `days_back` days of history. We need these to be
+    re-tested every run so their streak doesn't silently reset when the random
+    pull happens to skip them.
+    """
+    out = []
+    cutoff = datetime.now(timezone.utc).timestamp() - days_back * 86400
+    for sig, e in h.get("configs", {}).items():
+        if not e.get("uri"):
+            continue
+        # was OK in the last days_back days?
+        recent_ok = any(x.get("ok") for x in e.get("history", [])
+                        if datetime.fromisoformat(x["date"]).timestamp() >= cutoff)
+        if not recent_ok:
+            continue
+        c = parse_config(e["uri"])
+        if not c:
+            continue
+        out.append({
+            "config": c,
+            "source_name": e.get("source_name", "history"),
+            "source_type": "history-survivor",
+            "from_history": True,
+        })
+    return out
 
 
 # ---------------------------------------------------------------------------
@@ -644,16 +680,42 @@ def main():
     workers = int(settings.get("concurrent_workers", 8))
     test_timeout = int(settings.get("test_timeout_seconds", 8))
 
-    # ---- Stage 1: gather ----
+    history = load_history()
+
+    # ---- Stage 1: gather fresh configs from all sources ----
     all_items, per_source_raw = gather_configs(sources)
     total_gathered = len(all_items)
-    print(f"main: stage 1 — gathered {total_gathered} unique configs from {len(per_source_raw)} sources")
+    print(f"main: stage 1 — gathered {total_gathered} unique fresh configs from {len(per_source_raw)} sources")
+
+    # ---- Stage 1b: inject previously-alive configs from history ----
+    # These must be re-tested every run, otherwise their "days active" streak would
+    # silently reset just because the random pull skipped them.
+    survivors = previously_alive_configs(history, days_back=3)
+    # Dedupe survivors against the fresh pool (if a config is in both, we don't need
+    # to test it twice — its fresh fetch will be tested).
+    fresh_sigs = {config_signature(it["config"]) for it in all_items}
+    survivors_only = [s for s in survivors if config_signature(s["config"]) not in fresh_sigs]
+    if survivors_only:
+        print(f"main: stage 1b — injecting {len(survivors_only)} previously-alive configs from history "
+              f"(survivors not in fresh fetch — must re-test to keep streak growing)")
+        all_items = survivors_only + all_items
+        per_source_raw["__history_survivors__"] = len(survivors_only)
+    else:
+        print(f"main: stage 1b — found {len(survivors)} survivors in history, all already in fresh fetch")
 
     # ---- Stage 2: balanced random pull if > MAX_CONFIGS ----
-    if total_gathered > MAX_CONFIGS:
-        print(f"main: stage 2 — capping to {MAX_CONFIGS} via balanced random pull")
-        items = balanced_random_pull(all_items, MAX_CONFIGS)
-        # Log per-source allocation after pull
+    # Survivors are PRESERVED first (they take priority slots), then the remaining
+    # slots are split equally across the fresh sources.
+    if len(all_items) > MAX_CONFIGS:
+        print(f"main: stage 2 — capping to {MAX_CONFIGS} (preserving {len(survivors_only)} survivors + balanced random for the rest)")
+        survivors_budget = min(len(survivors_only), MAX_CONFIGS // 4)  # cap survivors at 25% of total
+        kept_survivors = survivors_only[:survivors_budget] if survivors_only else []
+        remaining_budget = MAX_CONFIGS - len(kept_survivors)
+        # Remove survivors from the fresh pool before doing the balanced random pull,
+        # so the pull only operates on fresh configs.
+        fresh_items = [it for it in all_items if not it.get("from_history")]
+        kept_fresh = balanced_random_pull(fresh_items, remaining_budget) if fresh_items else []
+        items = kept_survivors + kept_fresh
         per_source_kept = {}
         for it in items:
             per_source_kept[it["source_name"]] = per_source_kept.get(it["source_name"], 0) + 1
@@ -662,10 +724,9 @@ def main():
             print(f"         {src:30} raw={raw:6}  kept={n}")
     else:
         items = all_items
-        print(f"main: stage 2 — no cap needed ({total_gathered} <= {MAX_CONFIGS})")
+        print(f"main: stage 2 — no cap needed ({len(all_items)} <= {MAX_CONFIGS})")
 
     xray_bin = ensure_xray()
-    history = load_history()
 
     # ---- Stage 3+4: latency test → drop >600ms → real Gemini test ----
     passed_stage34 = []
@@ -702,7 +763,9 @@ def main():
                 status, lat_info = "exception", None
             sig = config_signature(it["config"])
             ok_today = status == "ok"
-            hinfo = update_history(history, sig, ok_today, retention_days)
+            uri = config_to_uri(it["config"])
+            hinfo = update_history(history, sig, ok_today, retention_days,
+                                  uri=uri, source_name=it.get("source_name"))
             if ok_today and lat_info:
                 lat_score = score_latency(lat_info["latency_ms"])
                 candidate_score = (score_country(lat_info.get("country_code"))
@@ -787,7 +850,9 @@ def make_name(rank: int, r: dict) -> str:
     # Combine city + region but trim if too long
     loc_parts = [p for p in [city, region] if p]
     loc = " ".join(loc_parts)[:25] if loc_parts else cc
-    return f"{rank} | {flag} {loc} | {r['streak_days']}d | {r['latency_ms']}ms | {r['speed_mbps']} MB/s"
+    # Source name (cleaned — strip "example-" prefix, cap length)
+    src = (r.get("source_name") or "").replace("example-", "").replace("__history_survivors__", "history")[:18]
+    return f"{rank} | {flag} {loc} | {r['streak_days']}d | {r['latency_ms']}ms | {r['speed_mbps']} MB/s | {src}"
 
 
 def write_outputs(top_n, all_passed, all_items, per_source_raw,
@@ -803,11 +868,18 @@ def write_outputs(top_n, all_passed, all_items, per_source_raw,
         f.write("\n".join(lines) + ("\n" if lines else ""))
 
     # ---- shadowsocks.txt (all SS configs that passed stage 3+4) ----
+    # Sort SS by speed descending so the fastest SS is at the top of the file too.
+    # SS configs that weren't in the top-N speed-test batch will have speed_mbps=0;
+    # fall back to candidate_score for ordering.
+    ss_passed = sorted(
+        [r for r in all_passed if r["config"]["protocol"] == "shadowsocks"],
+        key=lambda r: (-r.get("speed_mbps", 0), -r.get("candidate_score", 0))
+    ) if all_passed else []
     ss_lines = []
-    for r in all_passed:
-        if r["config"]["protocol"] == "shadowsocks":
-            r["config"]["remark"] = make_name(0, r).lstrip("0 | ").split(" | ", 1)[1] if " | " in make_name(0, r) else make_name(0, r)
-            ss_lines.append(config_to_uri(r["config"]))
+    for i, r in enumerate(ss_passed, 1):
+        name = make_name(i, r)
+        r["config"]["remark"] = name
+        ss_lines.append(config_to_uri(r["config"]))
     with open(SS_FILE, "w") as f:
         f.write("\n".join(ss_lines) + ("\n" if ss_lines else ""))
 

@@ -1,79 +1,60 @@
 # gemini-filter stats
 
-- **Last run:** 2026-10-25T20:18:41.128499+00:00
-- **Total runs:** 13
-- **Configs gathered (raw, all sources):** 3621
-- **Configs tested (after balanced cap to 5000):** 1766
+- **Last run:** 2026-10-26T02:46:22.895104+00:00
+- **Total runs:** 14
+- **Configs gathered (raw, all sources):** 2607
+- **Configs tested (after balanced cap to 5000):** 1062
 - **Per-source cap:** 1000 (each source contributes at most 1000 unique configs)
-- **Passed latency (< 600ms) + real Gemini check:** 40
-- **Drop reasons:** {'latency_fail': 405, 'gemini_fail': 40, 'xray_fail': 0, 'xray_died': 1225, 'latency_high': 56}
+- **Passed latency (< 600ms) + real Gemini check:** 20
+- **Drop reasons:** {'latency_fail': 159, 'gemini_fail': 16, 'xray_fail': 0, 'xray_died': 760, 'latency_high': 107}
 - **History retention:** 30 days
 
 ## Source breakdown (this run)
 
 | Source | Type | Status | Raw | Unique |
 |--------|------|--------|-----|--------|
-| 0xRadikal | subscription | ok | 100 | 56 |
-| Farid-Karimi | subscription | ok | 716 | 495 |
+| 0xRadikal | subscription | ok | 100 | 47 |
+| Farid-Karimi | subscription | ok | 716 | 500 |
 | Kwinshadow-TVC | subscription | ok | 71 | 67 |
-| MahanKenway | subscription | ok | 1507 | 1000 |
-| V2RayRoot | subscription | ok | 287 | 221 |
-| barry-far | subscription | ok | 448 | 182 |
-| iboxz | subscription | ok | 357 | 296 |
+| MahanKenway | subscription | ok | 1522 | 15 |
+| V2RayRoot | subscription | ok | 287 | 224 |
+| __history_survivors__ | (history) | ok | 12 | 0 |
+| barry-far | subscription | ok | 444 | 172 |
+| iboxz | subscription | ok | 356 | 302 |
 | ircfspace-tvc | subscription | ok | 50 | 46 |
 | mahdibland | subscription | ok | 4060 | 1000 |
-| miladtahanian | subscription | ok | 364 | 258 |
+| miladtahanian | subscription | ok | 364 | 246 |
 
 ## Protocol breakdown (passed filters)
 
 | Protocol | Count |
 |----------|-------|
-| shadowsocks | 32 |
-| vmess | 8 |
+| shadowsocks | 16 |
+| vmess | 4 |
 
-Shadowsocks-only file: **32 configs** in `shadowsocks.txt`
+Shadowsocks-only file: **16 configs** in `shadowsocks.txt`
 
-## Top 40 (ranked by download speed)
+## Top 20 (ranked by download speed)
 
 | # | Country | City | Streak | Latency | Speed |
 |---|---------|------|---------|---------|-------|
-| 1 | 🇺🇸 US | Phoenix Arizona | 1d | 550ms | 27.47 MB/s |
-| 2 | 🇺🇸 US | Phoenix Arizona | 1d | 87ms | 20.14 MB/s |
-| 3 | 🇺🇸 US | Dallas Texas | 1d | 573ms | 11.79 MB/s |
-| 4 | 🇺🇸 US | Dallas Texas | 1d | 550ms | 10.47 MB/s |
-| 5 | 🇺🇸 US | Phoenix Arizona | 1d | 233ms | 7.57 MB/s |
-| 6 | 🇺🇸 US | Salt Lake City Utah | 1d | 260ms | 7.28 MB/s |
-| 7 | 🏳️ ?? | | 1d | 558ms | 6.08 MB/s |
-| 8 | 🇺🇸 US | Atlanta Georgia | 1d | 578ms | 6.02 MB/s |
-| 9 | 🇺🇸 US | New York City New York | 1d | 447ms | 5.63 MB/s |
-| 10 | 🇺🇸 US | New York City New York | 1d | 547ms | 5.59 MB/s |
-| 11 | 🇺🇸 US | Miami Florida | 1d | 481ms | 4.43 MB/s |
-| 12 | 🇺🇸 US | San Jose California | 1d | 526ms | 3.67 MB/s |
-| 13 | 🇺🇸 US | Miami Florida | 1d | 566ms | 3.67 MB/s |
-| 14 | 🇨🇦 CA | Beauharnois-Salaberry Quebec | 1d | 394ms | 3.67 MB/s |
-| 15 | 🇺🇸 US | Washington District of Columbia | 1d | 598ms | 3.64 MB/s |
-| 16 | 🇺🇸 US | Miami Florida | 1d | 406ms | 3.49 MB/s |
-| 17 | 🇯🇵 JP | Tokyo Tokyo | 1d | 336ms | 3.16 MB/s |
-| 18 | 🇨🇦 CA | Beauharnois-Salaberry Quebec | 1d | 398ms | 3.09 MB/s |
-| 19 | 🇯🇵 JP | Tokyo Tokyo | 1d | 343ms | 2.9 MB/s |
-| 20 | 🇯🇵 JP | Tokyo Tokyo | 1d | 335ms | 2.84 MB/s |
-| 21 | 🇯🇵 JP | Ibaraki Osaka | 1d | 498ms | 2.48 MB/s |
-| 22 | 🇳🇱 NL | Kerkrade Provincie Limburg | 1d | 551ms | 2.35 MB/s |
-| 23 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 1d | 478ms | 2.25 MB/s |
-| 24 | 🇩🇪 DE | Frankfurt am Main Hessen | 1d | 422ms | 2.24 MB/s |
-| 25 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 1d | 446ms | 2.21 MB/s |
-| 26 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 1d | 453ms | 2.19 MB/s |
-| 27 | 🇮🇹 IT | Milan Lombardia | 1d | 494ms | 2.11 MB/s |
-| 28 | 🇮🇹 IT | Milan Lombardia | 1d | 512ms | 2.09 MB/s |
-| 29 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 1d | 458ms | 2.07 MB/s |
-| 30 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 1d | 494ms | 2.06 MB/s |
-| 31 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 1d | 543ms | 2.02 MB/s |
-| 32 | 🇺🇸 US | Phoenix Arizona | 1d | 69ms | 1.94 MB/s |
-| 33 | 🇦🇹 AT | Vienna Vienna | 1d | 525ms | 1.89 MB/s |
-| 34 | 🇸🇬 SG | Singapore South West | 1d | 564ms | 1.76 MB/s |
-| 35 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 1d | 484ms | 1.52 MB/s |
-| 36 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 1d | 575ms | 1.41 MB/s |
-| 37 | 🇵🇱 PL | Wroclaw Lower Silesian Voivodeship | 1d | 588ms | 1.41 MB/s |
-| 38 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 1d | 452ms | 1.28 MB/s |
-| 39 | 🇳🇱 NL | Kerkrade Provincie Limburg | 1d | 572ms | 1.09 MB/s |
-| 40 | 🇺🇸 US | Los Angeles California | 1d | 94ms | 0.0 MB/s |
+| 1 | 🇺🇸 US | Miami Florida | 2d | 598ms | 9.93 MB/s |
+| 2 | 🇺🇸 US | Phoenix Arizona | 2d | 479ms | 5.68 MB/s |
+| 3 | 🇨🇦 CA | Beauharnois-Salaberry Quebec | 1d | 578ms | 5.15 MB/s |
+| 4 | 🇺🇸 US | Phoenix Arizona | 2d | 517ms | 5.04 MB/s |
+| 5 | 🇨🇦 CA | Beauharnois-Salaberry Quebec | 2d | 104ms | 4.65 MB/s |
+| 6 | 🇬🇧 GB | London England | 1d | 575ms | 4.0 MB/s |
+| 7 | 🇺🇸 US | Washington District of Columbia | 1d | 486ms | 3.85 MB/s |
+| 8 | 🇬🇧 GB | Manchester England | 1d | 287ms | 3.83 MB/s |
+| 9 | 🇮🇹 IT | Milan Lombardia | 1d | 453ms | 3.31 MB/s |
+| 10 | 🇮🇹 IT | Milan Lombardia | 1d | 334ms | 3.22 MB/s |
+| 11 | 🇮🇹 IT | Milan Lombardia | 1d | 548ms | 3.16 MB/s |
+| 12 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 2d | 322ms | 3.1 MB/s |
+| 13 | 🇮🇹 IT | Milan Lombardia | 2d | 347ms | 3.1 MB/s |
+| 14 | 🇩🇪 DE | Frankfurt am Main Hessen | 2d | 580ms | 2.92 MB/s |
+| 15 | 🇺🇸 US | Los Angeles California | 2d | 376ms | 2.63 MB/s |
+| 16 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 2d | 371ms | 2.63 MB/s |
+| 17 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 1d | 416ms | 1.26 MB/s |
+| 18 | 🇵🇱 PL | Wroclaw Lower Silesian Voivodeship | 1d | 599ms | 1.21 MB/s |
+| 19 | 🇺🇸 US | Washington District of Columbia | 1d | 520ms | 0.86 MB/s |
+| 20 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 1d | 313ms | 0.0 MB/s |

@@ -1,76 +1,77 @@
 # gemini-filter stats
 
-- **Last run:** 2026-10-31T16:42:08.002528+00:00
-- **Total runs:** 29
-- **Configs gathered (raw, all sources):** 3435
-- **Configs tested (after balanced cap to 5000):** 1598
+- **Last run:** 2026-10-31T20:54:13.446581+00:00
+- **Total runs:** 30
+- **Configs gathered (raw, all sources):** 2696
+- **Configs tested (after balanced cap to 5000):** 1166
 - **Per-source cap:** 1000 (each source contributes at most 1000 unique configs)
-- **Passed latency (< 600ms) + real Gemini check:** 36
-- **Drop reasons:** {'latency_fail': 347, 'gemini_fail': 37, 'xray_fail': 0, 'xray_died': 1149, 'latency_high': 29}
+- **Passed latency (< 600ms) + real Gemini check:** 37
+- **Drop reasons:** {'latency_fail': 187, 'gemini_fail': 42, 'xray_fail': 0, 'xray_died': 864, 'latency_high': 36}
 - **History retention:** 30 days
 
 ## Source breakdown (this run)
 
 | Source | Type | Status | Raw | Unique |
 |--------|------|--------|-----|--------|
-| 0xRadikal | subscription | ok | 100 | 48 |
-| Farid-Karimi | subscription | ok | 897 | 511 |
-| Kwinshadow-TVC | subscription | ok | 71 | 65 |
-| MahanKenway | subscription | ok | 1742 | 1002 |
-| V2RayRoot | subscription | ok | 287 | 212 |
-| __history_survivors__ | (history) | ok | 14 | 0 |
-| barry-far | subscription | ok | 459 | 166 |
-| iboxz | subscription | ok | 367 | 153 |
+| 0xRadikal | subscription | ok | 100 | 63 |
+| Farid-Karimi | subscription | ok | 920 | 528 |
+| Kwinshadow-TVC | subscription | ok | 71 | 66 |
+| MahanKenway | subscription | ok | 1738 | 34 |
+| V2RayRoot | subscription | ok | 287 | 215 |
+| __history_survivors__ | (history) | ok | 16 | 0 |
+| barry-far | subscription | ok | 460 | 199 |
+| iboxz | subscription | ok | 361 | 303 |
 | ircfspace-tvc | subscription | ok | 50 | 46 |
 | mahdibland | subscription | ok | 4477 | 1000 |
-| miladtahanian | subscription | ok | 364 | 246 |
+| miladtahanian | subscription | ok | 364 | 258 |
 
 ## Protocol breakdown (passed filters)
 
 | Protocol | Count |
 |----------|-------|
-| shadowsocks | 31 |
+| shadowsocks | 32 |
 | vmess | 5 |
 
-Shadowsocks-only file: **31 configs** in `shadowsocks.txt`
+Shadowsocks-only file: **32 configs** in `shadowsocks.txt`
 
-## Top 36 (ranked by download speed)
+## Top 37 (ranked by download speed)
 
 | # | Country | City | Streak | Latency | Speed |
 |---|---------|------|---------|---------|-------|
-| 1 | 🇺🇸 US | Phoenix Arizona | 2d | 53ms | 25.95 MB/s |
-| 2 | 🇺🇸 US | Los Angeles California | 1d | 529ms | 25.64 MB/s |
-| 3 | 🇺🇸 US | Los Angeles California | 1d | 559ms | 20.61 MB/s |
-| 4 | 🇺🇸 US | Phoenix Arizona | 4d | 58ms | 10.07 MB/s |
-| 5 | 🇺🇸 US | Phoenix Arizona | 4d | 187ms | 9.42 MB/s |
-| 6 | 🇺🇸 US | Atlanta Georgia | 1d | 156ms | 9.17 MB/s |
-| 7 | 🇺🇸 US | Atlanta Georgia | 5d | 238ms | 8.98 MB/s |
-| 8 | 🇺🇸 US | Seattle Washington | 4d | 512ms | 8.89 MB/s |
-| 9 | 🇨🇦 CA | Vancouver British Columbia | 4d | 449ms | 8.42 MB/s |
-| 10 | 🇺🇸 US | Miami Florida | 1d | 169ms | 8.34 MB/s |
-| 11 | 🇺🇸 US | Miami Florida | 4d | 179ms | 7.94 MB/s |
-| 12 | 🇺🇸 US | Washington District of Columbia | 3d | 208ms | 7.91 MB/s |
-| 13 | 🇺🇸 US | Washington District of Columbia | 4d | 217ms | 7.89 MB/s |
-| 14 | 🇺🇸 US | Newark New Jersey | 4d | 533ms | 6.9 MB/s |
-| 15 | 🇯🇵 JP | Tokyo Tokyo | 1d | 347ms | 4.08 MB/s |
-| 16 | 🇯🇵 JP | Tokyo Tokyo | 1d | 344ms | 4.07 MB/s |
-| 17 | 🇯🇵 JP | Tokyo Tokyo | 4d | 378ms | 4.03 MB/s |
-| 18 | 🏳️ ?? | | 1d | 411ms | 3.74 MB/s |
-| 19 | 🇺🇸 US | Dallas Texas | 1d | 156ms | 3.63 MB/s |
-| 20 | 🇺🇸 US | Dallas Texas | 4d | 96ms | 3.53 MB/s |
-| 21 | 🇺🇸 US | Dallas Texas | 6d | 126ms | 3.47 MB/s |
-| 22 | 🇬🇧 GB | London England | 4d | 409ms | 3.43 MB/s |
-| 23 | 🇺🇸 US | Miami Florida | 1d | 235ms | 2.96 MB/s |
-| 24 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 2d | 503ms | 2.85 MB/s |
-| 25 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 4d | 498ms | 2.84 MB/s |
-| 26 | 🇦🇹 AT | Vienna Vienna | 3d | 510ms | 2.8 MB/s |
-| 27 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 2d | 452ms | 2.78 MB/s |
-| 28 | 🇮🇹 IT | Milan Lombardia | 2d | 498ms | 2.68 MB/s |
-| 29 | 🇫🇷 FR | Paris Ile-de-France | 1d | 440ms | 2.65 MB/s |
-| 30 | 🇺🇸 US | New York City New York | 7d | 192ms | 2.24 MB/s |
-| 31 | 🇮🇹 IT | Milan Lombardia | 2d | 540ms | 2.22 MB/s |
-| 32 | 🇺🇸 US | New York City New York | 6d | 205ms | 2.13 MB/s |
-| 33 | 🇺🇸 US | New York City New York | 1d | 208ms | 1.37 MB/s |
-| 34 | 🇳🇱 NL | Gemeente Westland Provincie Zuid-Holland | 1d | 463ms | 0.58 MB/s |
-| 35 | 🇬🇧 GB | Manchester England | 4d | 448ms | 0.52 MB/s |
-| 36 | 🇺🇸 US | Los Angeles California | 2d | 535ms | 0.34 MB/s |
+| 1 | 🇺🇸 US | Atlanta Georgia | 5d | 197ms | 13.97 MB/s |
+| 2 | 🇺🇸 US | New York City New York | 6d | 279ms | 13.82 MB/s |
+| 3 | 🇺🇸 US | New York City New York | 7d | 164ms | 13.53 MB/s |
+| 4 | 🇺🇸 US | Atlanta Georgia | 1d | 268ms | 12.97 MB/s |
+| 5 | 🇺🇸 US | Washington District of Columbia | 3d | 255ms | 11.22 MB/s |
+| 6 | 🇺🇸 US | Washington District of Columbia | 4d | 248ms | 10.49 MB/s |
+| 7 | 🇺🇸 US | Miami Florida | 4d | 223ms | 10.1 MB/s |
+| 8 | 🇺🇸 US | Newark New Jersey | 4d | 348ms | 9.84 MB/s |
+| 9 | 🇺🇸 US | New York City New York | 7d | 179ms | 9.83 MB/s |
+| 10 | 🇺🇸 US | Phoenix Arizona | 4d | 219ms | 9.53 MB/s |
+| 11 | 🇺🇸 US | Los Angeles California | 1d | 265ms | 9.14 MB/s |
+| 12 | 🇺🇸 US | Phoenix Arizona | 2d | 169ms | 8.81 MB/s |
+| 13 | 🇺🇸 US | Miami Florida | 1d | 290ms | 8.45 MB/s |
+| 14 | 🇺🇸 US | Phoenix Arizona | 4d | 277ms | 8.36 MB/s |
+| 15 | 🇺🇸 US | Atlanta Georgia | 1d | 231ms | 7.38 MB/s |
+| 16 | 🇺🇸 US | Dallas Texas | 1d | 261ms | 7.11 MB/s |
+| 17 | 🇺🇸 US | Seattle Washington | 4d | 293ms | 7.04 MB/s |
+| 18 | 🇨🇦 CA | Vancouver British Columbia | 4d | 254ms | 6.7 MB/s |
+| 19 | 🇺🇸 US | Dallas Texas | 6d | 300ms | 6.57 MB/s |
+| 20 | 🇺🇸 US | Dallas Texas | 1d | 272ms | 5.9 MB/s |
+| 21 | 🇺🇸 US | Miami Florida | 1d | 248ms | 4.3 MB/s |
+| 22 | 🇺🇸 US | Dallas Texas | 4d | 263ms | 4.22 MB/s |
+| 23 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 4d | 363ms | 3.81 MB/s |
+| 24 | 🇬🇧 GB | Manchester England | 4d | 419ms | 3.8 MB/s |
+| 25 | 🇫🇷 FR | Paris Ile-de-France | 1d | 469ms | 3.49 MB/s |
+| 26 | 🇩🇪 DE | Frankfurt am Main Hessen | 1d | 374ms | 3.45 MB/s |
+| 27 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 2d | 390ms | 3.38 MB/s |
+| 28 | 🇬🇧 GB | London England | 4d | 377ms | 3.34 MB/s |
+| 29 | 🇯🇵 JP | Tokyo Tokyo | 4d | 424ms | 3.34 MB/s |
+| 30 | 🇦🇹 AT | Vienna Vienna | 3d | 441ms | 3.34 MB/s |
+| 31 | 🇯🇵 JP | Tokyo Tokyo | 1d | 408ms | 3.3 MB/s |
+| 32 | 🇮🇹 IT | Milan Lombardia | 2d | 405ms | 3.21 MB/s |
+| 33 | 🇯🇵 JP | Tokyo Tokyo | 1d | 412ms | 3.21 MB/s |
+| 34 | 🇮🇹 IT | Milan Lombardia | 1d | 439ms | 1.54 MB/s |
+| 35 | 🇺🇸 US | Phoenix Arizona | 4d | 221ms | 0.5 MB/s |
+| 36 | 🇳🇱 NL | Amsterdam Provincie Noord-Holland | 1d | 577ms | 0.39 MB/s |
+| 37 | 🇳🇱 NL | Gemeente Westland Provincie Zuid-Holland | 1d | 568ms | 0.0 MB/s |

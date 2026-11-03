@@ -10,9 +10,10 @@ Pipeline (waterfall — each stage drops the failures):
   Stage 2: Cap           — if total > 5000, do per-source balanced random sampling
                             so each source contributes equally (no single source dominates)
   Stage 3: Latency test  — keep only configs with latency < 600ms
-  Stage 4: Real Gemini   — fetch gemini.google.com, parse page HTML,
-                            drop configs where Gemini shows the geo-block page
-                            ("Gemini is not supported in your country")
+  Stage 4: Real AI Studio — fetch aistudio.google.com, check status +
+                            redirect target + page size + geo-block phrases.
+                            Drops 403s, "location restriction" and
+                            "not available in your region" exits.
   Stage 5: Top 50        — take top 50 candidates by (country + stability + latency) score
   Stage 6: Speed test    — download 5MB through each of the top 50, re-rank by download speed
   Stage 7: Output        — write top50.txt, shadowsocks.txt, all_ok.txt, stats.md
@@ -51,24 +52,30 @@ XRAY_BIN = os.path.join(ROOT, "bin", "xray")
 XRAY_VERSION = "v26.10.21"
 XRAY_FALLBACK_VERSIONS = ["v25.10.7", "v25.1.30", "v24.12.18"]
 
-GEMINI_URL = "https://gemini.google.com/"
+GEMINI_URL = "https://aistudio.google.com/"   # Google AI Studio (the app this filter serves)
+AISTUDIO_URL = GEMINI_URL                       # explicit alias
 LATENCY_URL = "https://www.google.com/generate_204"
 SPEED_TEST_URL = "https://speed.cloudflare.com/__down?bytes=5000000"  # 5 MB
 
 MAX_CONFIGS = 5000           # hard fallback cap; actual cap comes from sources.json
 TOP_N = 50                   # final size of top50.txt
 LATENCY_CUTOFF_MS = 600      # drop configs slower than this
-GEMINI_TIMEOUT_S = 10        # the real Gemini page is ~800KB — needs longer than 4s on slow proxies
-GEMINI_MIN_PAGE_SIZE = 100_000  # real app page is ~800KB; 403/error stubs are <2KB
+GEMINI_TIMEOUT_S = 12        # AI Studio page is ~33KB — faster than the old 800KB Gemini page
+GEMINI_MIN_PAGE_SIZE = 20_000  # real AI Studio welcome page is ~33KB; 403/error stubs are <5KB
 
-# Countries where Gemini is NOT available. Even if the IP passes the page check,
-# a login-time region check can still block the user, so we drop these outright.
+# Countries where AI Studio / Gemini API is NOT available. Even if the IP passes the
+# page check, an account-time region check can still block the user, so we drop these
+# outright. (List per ai.google.dev/gemini-api/docs/available-regions)
 GEMINI_BLOCKED_COUNTRIES = {
     "IR", "RU", "BY", "CN", "HK", "MO", "CU", "KP", "SY", "VE", "AF", "MM",
 }
 
-# Phrases Gemini shows when geo-blocked (case-insensitive substring match)
+# Region-block signatures for AI Studio:
+#  - redirected to the "Available regions" doc page
+#  - "not available in your region, or you don't meet the age requirements (18+)"
+#  - 403 "location restriction" / "Permission denied" for flagged IPs
 GEMINI_BLOCK_PHRASES = [
+    # region blocks (case-insensitive substring match)
     "is not supported in your country",
     "not available in your country",
     "isn't available in your country",
@@ -77,7 +84,19 @@ GEMINI_BLOCK_PHRASES = [
     "not supported in your region",
     "isn't supported in your country/region",
     "not supported in your country/region",
+    # AI Studio specific
+    "available regions for google ai studio",
+    "your region may not be supported",
+    "age requirements",
+    "location restriction",
+    "permission denied",
 ]
+
+# When AI Studio region-blocks an IP it 302-redirects to this docs page. We follow
+# redirects with curl -L, so if the FINAL url lands here the exit IP is blocked.
+AISTUDIO_BLOCK_REDIRECT = "ai.google.dev/gemini-api/docs/available-regions"
+# The app itself must stay on its own host (aistudio.google.com/...).
+AISTUDIO_ALLOWED_HOST = "aistudio.google.com"
 
 COUNTRY_SCORES = {
     "US": 30, "CA": 18, "MX": 18,
@@ -616,7 +635,7 @@ def test_country_info(port: int, timeout: int) -> dict:
     """
     Stage 4b: get the exit IP (through the proxy, via ipify — a tiny plain-text
     response with very high rate limits), then geo-lookup DIRECTLY from the runner.
-    Only called for configs that already passed the Gemini check.
+    Only called for configs that already passed the AI Studio check.
     """
     info = {}
     rc, out, _ = curl_through_socks(port, "https://api.ipify.org", timeout)
@@ -627,22 +646,28 @@ def test_country_info(port: int, timeout: int) -> dict:
     return info
 
 
-def test_gemini_real(port: int, timeout: int = GEMINI_TIMEOUT_S) -> bool:
+def test_gemini_real(port: int, timeout: int = GEMINI_TIMEOUT_S, url: str = None) -> bool:
     """
-    Stage 4: verify the REAL Gemini app page loads — three-part check:
+    Stage 4: verify the REAL AI Studio app page loads — four-part check:
 
       1. HTTP status must be 200.
-         (Google serves 403 Forbidden to flagged datacenter exit IPs — the page
-         still contains "google" and "<html", so a content-only check passes it.
-         This was the bug that let 403-blocked configs into top50.)
-      2. Page body must be >= GEMINI_MIN_PAGE_SIZE bytes.
-         (The real app page is ~800KB; 403/error stubs are <2KB.)
-      3. Body must not contain geo-block phrases.
-         ("isn't supported in your country/region" etc.)
+         (Google serves 403 Forbidden / "location restriction" to flagged
+         datacenter exit IPs. A 403 stub still contains "google" and "<html",
+         so a content-only check would pass it — that was the old bug.)
+      2. Final URL (after redirects) must still be on aistudio.google.com.
+         Region-blocked IPs are 302-redirected to
+         ai.google.dev/gemini-api/docs/available-regions — that page returns
+         200 and is >20KB, so a status+size check alone would PASS a blocked
+         IP. The redirect-target check catches it.
+      3. Page body must be >= GEMINI_MIN_PAGE_SIZE bytes.
+         (The real AI Studio welcome page is ~33KB; error stubs are <5KB.)
+      4. Body must not contain geo-block phrases.
+         ("not available in your region", "age requirements", etc.)
     """
+    target = url or GEMINI_URL
     rc, out, _ = curl_through_socks(
-        port, GEMINI_URL, timeout,
-        extra_args=["-w", "\n__META__%{http_code} %{size_download}"])
+        port, target, timeout,
+        extra_args=["-w", "\n__META__%{http_code} %{size_download} %{url_effective}"])
     if rc != 0 or not out:
         return False
     marker = "\n__META__"
@@ -651,17 +676,22 @@ def test_gemini_real(port: int, timeout: int = GEMINI_TIMEOUT_S) -> bool:
         return False
     body = out[:idx]
     meta = out[idx + len(marker):].strip().split()
-    if len(meta) != 2:
+    if len(meta) != 3:
         return False
     try:
         status = int(meta[0])
         size = int(float(meta[1]))
+        final_url = meta[2]
     except Exception:
         return False
     if status != 200:
-        return False
+        return False                    # 403 / location restriction / etc.
+    if AISTUDIO_BLOCK_REDIRECT in final_url:
+        return False                    # redirected to "Available regions" = blocked
+    if AISTUDIO_ALLOWED_HOST not in final_url:
+        return False                    # landed somewhere unexpected
     if size < GEMINI_MIN_PAGE_SIZE:
-        return False
+        return False                    # error stub, not the real app page
     body_lower = body.lower()
     for phrase in GEMINI_BLOCK_PHRASES:
         if phrase in body_lower:
@@ -807,6 +837,15 @@ def main():
     effective_cap = int(settings.get("max_configs_per_run", MAX_CONFIGS))
     max_per_source = int(settings.get("max_configs_per_source", 0))  # 0 = no per-source cap
 
+    # Wire the real-app test URL from sources.json (default: AI Studio).
+    # The old bug: sources.json had a 'test_url' key that nothing read — the
+    # URL was hardcoded. Now editing sources.json actually changes the target.
+    global GEMINI_URL
+    configured_url = settings.get("test_url", "").strip()
+    if configured_url:
+        GEMINI_URL = configured_url
+    print(f"main: real-app check target = {GEMINI_URL}")
+
     history = load_history()
 
     # ---- Stage 1: gather fresh configs from all sources ----
@@ -880,7 +919,7 @@ def main():
     items = pre_filter_alive
     print(f"main: stage 2.5 — {len(items)} alive, {pre_filter_dead} dropped (TCP closed)")
 
-    # ---- Stage 3+4: latency test → drop >600ms → real Gemini test ----
+    # ---- Stage 3+4: latency test → drop >600ms → real AI Studio test ----
     passed_stage34 = []
     stats_stage = {"latency_fail": 0, "gemini_fail": 0, "xray_fail": 0}
 
@@ -896,14 +935,16 @@ def main():
                 return None, "latency_fail", None
             if lat_info["latency_ms"] > LATENCY_CUTOFF_MS:
                 return None, "latency_high", lat_info
-            # Stage 4: real Gemini check — status 200 + full-size page + no geo-block.
-            # Dedicated 10s timeout: the page is ~800KB and 4s truncates it on slow proxies.
+            # Stage 4: real AI Studio check — status 200 + no redirect to the
+            # "Available regions" page + full-size page + no geo-block phrases.
+            # Dedicated 12s timeout: 403/region errors must be attributed to the
+            # exit IP, not to a truncated fetch.
             if not test_gemini_real(port, GEMINI_TIMEOUT_S):
                 return None, "gemini_fail", lat_info
-            # Country lookup only for Gemini-passing configs (exit IP + direct lookup)
+            # Country lookup only for AI-Studio-passing configs (exit IP + direct lookup)
             country_info = test_country_info(port, test_timeout)
             lat_info.update(country_info)
-            # Drop countries where Gemini is not available at all
+            # Drop countries where AI Studio / Gemini API is not available at all
             if lat_info.get("country_code") in GEMINI_BLOCKED_COUNTRIES:
                 return None, "country_blocked", lat_info
             return lat_info, "ok", None
@@ -912,7 +953,7 @@ def main():
         finally:
             cleanup_xray(proc, cfg_path)
 
-    print(f"main: stage 3+4 — testing {len(items)} configs (latency < {LATENCY_CUTOFF_MS}ms + Gemini real)")
+    print(f"main: stage 3+4 — testing {len(items)} configs (latency < {LATENCY_CUTOFF_MS}ms + AI Studio real)")
     with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as ex:
         futs = {ex.submit(worker_stage34, it): it for it in items}
         for i, fut in enumerate(concurrent.futures.as_completed(futs), 1):
@@ -948,7 +989,7 @@ def main():
             if i % 50 == 0:
                 print(f"         tested {i}/{len(items)}  passed={len(passed_stage34)}")
 
-    print(f"main: stage 3+4 — {len(passed_stage34)} configs passed latency + real-Gemini check")
+    print(f"main: stage 3+4 — {len(passed_stage34)} configs passed latency + real-AI-Studio check")
     print(f"         drop reasons: {stats_stage}")
 
     # ---- Stage 5: pick top 50 candidates by composite score ----
@@ -1058,7 +1099,7 @@ def write_outputs(top_n, all_passed, all_items, per_source_raw, per_source_statu
     md.append(f"- **Configs tested (after balanced cap to {effective_cap}):** {total_tested}")
     if max_per_source:
         md.append(f"- **Per-source cap:** {max_per_source} (each source contributes at most {max_per_source} unique configs)")
-    md.append(f"- **Passed latency (< {LATENCY_CUTOFF_MS}ms) + real Gemini check:** {len(all_passed)}")
+    md.append(f"- **Passed latency (< {LATENCY_CUTOFF_MS}ms) + real AI Studio check (200, no 403/region-block):** {len(all_passed)}")
     md.append(f"- **Drop reasons:** {stats_stage}")
     md.append(f"- **History retention:** {retention_days} days")
     md.append("")
